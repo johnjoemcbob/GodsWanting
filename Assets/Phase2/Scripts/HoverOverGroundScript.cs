@@ -18,7 +18,11 @@ public class HoverOverGroundScript : MonoBehaviour
 	{
 		// Cast a ray downwards
 		RaycastHit hitinfo;
-		Physics.Raycast( transform.position, -transform.up, out hitinfo );
+		int layermask = 1 << LayerMask.NameToLayer( "Player" );
+		{
+			layermask = ~layermask;
+		}
+		Physics.Raycast( transform.position, -transform.up, out hitinfo, 100, layermask );
 
 		transform.position = hitinfo.point + ( transform.up * HoverHeight );
 	}

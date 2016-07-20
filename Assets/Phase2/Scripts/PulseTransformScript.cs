@@ -1,12 +1,15 @@
-﻿// Matthew Cormack
-// 24/06/16
+﻿// Matthew Cormack (@johnjoemcbob / www.matthewcormack.co.uk)
+// 20/07/16
 //
+// The Gods Are Wanting
+//
+// Pulse Transform Script
 // Pulsate the desired transform variables (in local space) with time
 // (i.e. position/rotation/scale)
 
 using UnityEngine;
 
-public class PulseTransformScript : MonoBehaviour
+public class PulseTransformScript : ActivatableScript
 {
 	// Public inspector
 	public Vector3 PulsePosition;
@@ -31,6 +34,8 @@ public class PulseTransformScript : MonoBehaviour
 
 	void Update()
 	{
+		if ( !Activated ) return;
+
 		if ( AutoLoop || Enabled )
 		{
 			float templastexact = (float) LastExact;

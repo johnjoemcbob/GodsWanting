@@ -10,7 +10,7 @@
 
 using UnityEngine;
 
-public class KeyframeAnimationHandlerScript : MonoBehaviour
+public class KeyframeAnimationHandlerScript : ActivatableScript
 {
 	#region Variable Declaration
 	[Header( "Keyframe Animation Handler" )]
@@ -44,12 +44,14 @@ public class KeyframeAnimationHandlerScript : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		if ( !Activated ) return;
+
 		// Advance timestamp
 		Time_Sample += Time.deltaTime * AnimationSpeed;
 		{
 			if ( Time_Sample > AnimationTime )
 			{
-				Time_Sample = 0;
+				OnDeactivate();
 			}
 		}
 		KeyframeStruct keyframe = Animation.GetKeyframeAtTime( Time_Sample );
@@ -67,5 +69,23 @@ public class KeyframeAnimationHandlerScript : MonoBehaviour
 		{
 			transform.localScale = keyframe.Scale;
 		}
+	}
+
+	public override bool OnActivate()
+	{
+		bool success = base.OnActivate();
+		if ( !success ) return false;
+
+		Time_Sample = 0;
+		return true;
+	}
+
+	public override bool OnDeactivate()
+	{
+		bool success = base.OnDeactivate();
+		if ( !success ) return false;
+
+		Time_Sample = 0;
+		return true;
 	}
 }
