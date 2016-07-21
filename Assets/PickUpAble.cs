@@ -12,6 +12,8 @@ public class PickUpAble : MonoBehaviour {
 	private Collider2D col;
 	[HideInInspector]
 	public Rigidbody2D rb;
+	[HideInInspector]
+	public PlayerControl currentPlayerScript;
 	
 	public virtual void Awake () {
 		col = GetComponent<Collider2D>();
@@ -47,7 +49,8 @@ public class PickUpAble : MonoBehaviour {
 			
 			// currentKeeper = other.gameObject;
 			
-			col.parent.GetComponent<PlayerControl>().AddHeldObject(gameObject);
+			currentPlayerScript = col.parent.GetComponent<PlayerControl>();
+			currentPlayerScript.AddHeldObject(gameObject);
 	}
 	
 	public virtual void PickUpE () {

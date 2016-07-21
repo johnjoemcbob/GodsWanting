@@ -3,7 +3,14 @@ using System.Collections;
 
 public class TreeGrow : MonoBehaviour {
 	
-	private string fruitType;
+	public Vector2[] fruitPositions;
+	
+	public string fruitType;
+	
+	public float timeBetweenFruits;
+	public int noOfFruitsToProduce;
+	
+	private int noOfFruitsProduced;
 	
 	private FruitManager fruitManager;
 	
@@ -15,11 +22,19 @@ public class TreeGrow : MonoBehaviour {
 	
 	// Use this for initialization
 	// void Start () {
-		// InvokeRepeating("NewFruit", 0, 15);
+		// InvokeRepeating("NewFruit", 0, timeBetweenFruits);
 	// }
 	
+	void OnEnable () {
+		noOfFruitsProduced = 0;
+		if (fruitType != "")
+		{
+			InvokeRepeating("NewFruit", 1, timeBetweenFruits);
+		}
+	}
+	
 	public void SetUp (string v) {
-		InvokeRepeating("NewFruit", 0, 15);
+		// InvokeRepeating("NewFruit", 0, timeBetweenFruits);
 		
 		fruitType = v;
 	}
@@ -30,7 +45,17 @@ public class TreeGrow : MonoBehaviour {
 	}
 	
 	void NewFruit () {
-		fruitManager.GetNewFruit(fruitType, transform.position);
+		fruitManager.GetNewFruit(fruitType, (Vector2)transform.position + fruitPositions[noOfFruitsProduced]);
+		
+		if (++noOfFruitsProduced == noOfFruitsToProduce)
+		{
+			CancelInvoke("NewFruit");
+			Invoke("Deactivate", 5);
+		}
+	}
+	
+	void Deactivate () {
+		gameObject.SetActive(false);
 	}
 	
 	// IEnumerator StartGrowing () {

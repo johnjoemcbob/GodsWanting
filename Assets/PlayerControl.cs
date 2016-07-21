@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -34,8 +35,11 @@ public class PlayerControl : MonoBehaviour {
 	
 	private Rigidbody2D rb;
 	
+	private Image actionImage;
+	
 	void Awake () {
 		rb = GetComponent<Rigidbody2D>();
+		actionImage = GetComponentInChildren<Image>();
 		// currentSpeed = speed;
 		
 		canDash = true;
@@ -85,6 +89,19 @@ public class PlayerControl : MonoBehaviour {
 			}else if (canDash) 
 			{
 				StartCoroutine("Dash");
+			}
+		}	
+		
+		if (Input.GetButtonDown("AltFire_"+playerNum))
+		{
+			if (heldObjects.Count > 0)
+			{
+				// StartCoroutine("Fire");
+				
+				if (heldObjects[0].GetComponent<Fruit>().Plant())
+				{
+					heldObjects.RemoveAt(0);
+				}
 			}
 		}
 		
@@ -203,5 +220,18 @@ public class PlayerControl : MonoBehaviour {
 	
 	public void IncreaseSpeed (float s) {
 		additionalSpeed += s;
+	}
+	
+	public void UpdateActionUI (float p) {
+		actionImage.fillAmount = p;
+		
+		if (p == 1)
+		{
+			Invoke("ClearActionUI", 1);
+		}
+	}
+	
+	void ClearActionUI () {
+		UpdateActionUI(0);
 	}
 }

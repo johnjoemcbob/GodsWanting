@@ -59,6 +59,8 @@ public class FruitManager : MonoBehaviour {
 	
 	// public void MakeNewFruit (FruitType newFruit, Vector2 pos) {
 	public GameObject GetNewFruit (string fruit, Vector2 pos) {
+		
+		// Debug.Log(fruit);
 		GameObject go = fruitPools[fruit].GetObject();
 		
 		go.SetActive(true);

@@ -14,6 +14,9 @@ public class Fruit : PickUpAble {
 	public float fallTime;
 	public float plantTime;
 	
+	public int pressesToPlant;
+	private int currentPresses;
+	
 	private float currentGrowth;
 	private bool germinated;
 	private bool planting;
@@ -36,10 +39,13 @@ public class Fruit : PickUpAble {
 		InCauldron
 	} public FruitStates fruitState;
 	
+	private Transform startingParent;
+	
 	public override void Awake () {
 		base.Awake();
 	
 		fruitManager = GameObject.Find("Managers").GetComponent<FruitManager>();
+		startingParent = transform.parent;
 	}
 	
 	public void SetUp (bool fromTree) {
@@ -132,32 +138,86 @@ public class Fruit : PickUpAble {
 	
 	IEnumerator Planting () {
 		
+		// Vector3 startPos = transform.position;
+		
 		planting = true;
 		
 		float t = 0;
 		
-		while (t < plantTime && fruitState == FruitStates.OnGround) {
-			
-			t += Time.deltaTime;
-			yield return null;
-		}
-		
-		if (fruitState == FruitStates.OnGround)
+		while (fruitState == FruitStates.OnGround)
 		{
+		// while (t < plantTime && fruitState == FruitStates.OnGround) {
+			while (t < plantTime) 
+			{
+				
+				t += Time.deltaTime;
+				yield return null;
+			}
+		
+		// Debug.Log("D");
+		
+		// if (startPos == transform.position)
+		// {
 			// Instantiate(tree, transform.position, Quaternion.identity);
 			GameObject go = fruitManager.GetNewTree(transform.position);
 			go.GetComponent<TreeGrow>().SetUp(fruitType);
 			
 			gameObject.SetActive(false);
+		// }
+			yield return null;
 		}
+	}
+	
+	IEnumerator PlayerPlanting () {
+		
+		Vector3 startPos = transform.position;
+		
+		planting = true;
+		currentPresses = 0;
+		
+		float marginOfError = 0.5f;
+		
+		// float t = 0;
+		
+		while (Vector2.Distance(startPos,transform.position) < marginOfError)
+		{
+			yield return null;
+		}
+		
+		// Debug.Log("D");
+		
+		planting = false;
+		currentPresses = 0;
+		currentPlayerScript.UpdateActionUI(0);
 	}
 	
 	public void Eat () {
 	
 	}
 	
-	public void Plant () {
+	public bool Plant () {
+		if (planting == false)
+		{
+			StartCoroutine("PlayerPlanting");
+		}
+		currentPresses++;
+		currentPlayerScript.UpdateActionUI((float)currentPresses/(float)pressesToPlant);
+		
+		if (currentPresses >= pressesToPlant)
+		{
+			PlantTree();
+			return true;
+		}
+		
+		// Debug.Log(currentPresses);
+		return false;
+	}
 	
+	void PlantTree ( ){
+		GameObject go = fruitManager.GetNewTree(transform.position);
+		go.GetComponent<TreeGrow>().SetUp(fruitType);
+			
+		gameObject.SetActive(false);
 	}
 	
 	public virtual void AddToCauldron () {
@@ -185,5 +245,13 @@ public class Fruit : PickUpAble {
 			
 			currentCauldron = null;
 		}
+	}
+	
+	void OnDisable () {
+		Invoke("Reparent", 0);
+	}
+	
+	void Reparent () {
+		transform.SetParent(startingParent);
 	}
 }
