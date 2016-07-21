@@ -162,6 +162,7 @@ public class Fruit : PickUpAble {
 	
 	public virtual void AddToCauldron () {
 		bubbling = true;
+		gameObject.SetActive(false);
 	}
 	
 	public override void OnTriggerEnter2D (Collider2D other) {
