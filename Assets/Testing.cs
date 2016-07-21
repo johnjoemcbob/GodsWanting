@@ -16,5 +16,10 @@ public class Testing : MonoBehaviour {
 		{
 			Debug.Break();
 		}
+		
+		if (Input.GetKeyDown("r"))
+		{
+			Application.LoadLevel(Application.loadedLevel);
+		}
 	}
 }

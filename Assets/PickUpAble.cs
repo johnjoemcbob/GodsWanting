@@ -13,7 +13,7 @@ public class PickUpAble : MonoBehaviour {
 	[HideInInspector]
 	public Rigidbody2D rb;
 	
-	void Awake () {
+	public virtual void Awake () {
 		col = GetComponent<Collider2D>();
 		rb = GetComponent<Rigidbody2D>();
 		
@@ -26,11 +26,13 @@ public class PickUpAble : MonoBehaviour {
 		// Debug.Log(rb.velocity);
 	// }
 	
-	void OnTriggerEnter2D (Collider2D other) {
+	public virtual void OnTriggerEnter2D (Collider2D other) {
 		if (other.gameObject.tag == "CatchRadius" && other.gameObject != currentKeeper) 
 		{
 			PickUp(other.transform);
 			PickUpE();
+			
+			// Debug.Log("D");
 		}
 	}
 	
@@ -64,6 +66,7 @@ public class PickUpAble : MonoBehaviour {
 		rb.isKinematic = false;
 		transform.parent = null;
 		rb.AddForce(dir * force);
+		// Debug.Log(dir);
 		// rb.AddForce(dir * force, ForceMode2D.Impulse);
 		Dropped();
 	}

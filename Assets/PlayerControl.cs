@@ -68,6 +68,7 @@ public class PlayerControl : MonoBehaviour {
 				// StartCoroutine("Fire");
 				
 				heldObjects[0].GetComponent<Fruit>().Fire(lookDir, maxShotStrength);
+				// Debug.Log(lookDir * maxShotStrength);
 				heldObjects.RemoveAt(0);
 			}
 		}
