@@ -74,7 +74,11 @@ public class KeyframeAnimationHandlerScript : ActivatableScript
 	public override bool OnActivate()
 	{
 		bool success = base.OnActivate();
-		if ( !success ) return false;
+		if ( !success )
+		{
+			OnDeactivate();
+			base.OnActivate();
+		}
 
 		Time_Sample = 0;
 		return true;

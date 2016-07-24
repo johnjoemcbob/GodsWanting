@@ -12,17 +12,10 @@ using UnityEngine;
 
 public class MoveOnActivateScript : ActivatableScript
 {
+	public MoveTowardsTargetScript MoveTarget;
+
 	public Vector3 DirectionChange;
 	public Vector3 AngularChange;
-
-	protected Vector3 TargetPosition;
-	protected Vector3 TargetRotation;
-
-	void Update()
-	{
-		transform.position += ( TargetPosition - transform.position ) * Time.deltaTime;
-		transform.rotation = Quaternion.Euler( transform.eulerAngles + ( TargetRotation - transform.eulerAngles ) * Time.deltaTime );
-	}
 
 	public override bool OnActivate()
 	{
@@ -30,10 +23,10 @@ public class MoveOnActivateScript : ActivatableScript
 		if ( !success ) return false;
 
 		// Move
-		TargetPosition += ( DirectionChange.x * transform.forward );
-		TargetPosition += ( DirectionChange.y * transform.up );
-		TargetPosition += ( DirectionChange.z * transform.right );
-		TargetRotation += AngularChange;
+		MoveTarget.TargetPosition += ( DirectionChange.x * transform.forward );
+		MoveTarget.TargetPosition += ( DirectionChange.y * transform.up );
+		MoveTarget.TargetPosition += ( DirectionChange.z * transform.right );
+		MoveTarget.TargetRotation += AngularChange;
 
 		// Move once per activate
 		OnDeactivate();
