@@ -14,7 +14,7 @@ public class Testing : MonoBehaviour {
 	void Update () {
 		if (Input.GetButtonDown("Debug"))
 		{
-			Debug.Break();
+			// Debug.Break();
 		}
 		
 		if (Input.GetKeyDown("r"))

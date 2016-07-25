@@ -7,6 +7,8 @@ public class TreeGrow : MonoBehaviour {
 	
 	public string fruitType;
 	
+	public float timeBeforeDisappear;
+	
 	public float timeBetweenFruits;
 	public int noOfFruitsToProduce;
 	
@@ -31,12 +33,14 @@ public class TreeGrow : MonoBehaviour {
 		{
 			InvokeRepeating("NewFruit", 1, timeBetweenFruits);
 		}
+		// Debug.Log("E");
 	}
 	
 	public void SetUp (string v) {
-		// InvokeRepeating("NewFruit", 0, timeBetweenFruits);
+		InvokeRepeating("NewFruit", 3, timeBetweenFruits);
 		
 		fruitType = v;
+		// Debug.Log("S");
 	}
 	
 	// Update is called once per frame
@@ -45,12 +49,14 @@ public class TreeGrow : MonoBehaviour {
 	}
 	
 	void NewFruit () {
-		fruitManager.GetNewFruit(fruitType, (Vector2)transform.position + fruitPositions[noOfFruitsProduced]);
+		GameObject go = fruitManager.GetNewFruit(fruitType, (Vector2)transform.position + fruitPositions[noOfFruitsProduced]);
+		go.GetComponent<Fruit>().SetUp(true); // comment out line to make fruit start fully grown
 		
+		// Debug.Log("N");
 		if (++noOfFruitsProduced == noOfFruitsToProduce)
 		{
 			CancelInvoke("NewFruit");
-			Invoke("Deactivate", 5);
+			Invoke("Deactivate", timeBeforeDisappear);
 		}
 	}
 	
