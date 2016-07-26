@@ -4,7 +4,7 @@
 // The Gods Are Wanting
 //
 // Rotate To Face Object Script
-// Rotate the the attached gameobject to
+// Rotate the attached gameobject to
 // face the defined target
 //
 
