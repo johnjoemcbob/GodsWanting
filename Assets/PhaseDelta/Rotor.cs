@@ -9,23 +9,25 @@ public class Rotor : MonoBehaviour {
 	public float rotSpeedMax;
 	
 	private Rigidbody rb;
+	private DroneControl controlScript;
 	
 	void Awake () {
 		rb = transform.parent.GetComponent<Rigidbody>();
+		controlScript = transform.parent.GetComponent<DroneControl>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		float rotSpeed = initRotSpeed;
-	
-		// rotSpeed = initRotSpeed * (rotSpeedMultiplier * rb.velocity.y);
-		// rotSpeed = Mathf.Clamp(rotSpeedMultiplier * Mathf.Abs(rb.velocity.y), rotSpeedMin, rotSpeedMax);
-		rotSpeed = Mathf.Clamp(rotSpeedMultiplier * Mathf.Abs(rb.velocity.magnitude), rotSpeedMin, rotSpeedMax);
-		// rotSpeed = Mathf.Clamp(rotSpeedMultiplier * rb.velocity.y, -rotSpeedMax, rotSpeedMax);
+
+		// rotSpeed = Mathf.Clamp(rotSpeedMultiplier * Mathf.Abs(rb.velocity.magnitude), rotSpeedMin, rotSpeedMax);
+		// rotSpeed = Mathf.Clamp(rotSpeedMultiplier * Mathf.Abs(controlScript.GetThrust()), rotSpeedMin, rotSpeedMax);
 		
-		// rotSpeed = initRotSpeed * Mathf.Sign(rb.velocity.y);
+		float m = Mathf.Max(Mathf.Abs(controlScript.GetThrust()), Mathf.Abs(rb.velocity.magnitude));
+		
+		rotSpeed = Mathf.Clamp(rotSpeedMultiplier * m, rotSpeedMin, rotSpeedMax);
+		
 	
 		transform.Rotate(Vector3.up * rotSpeed * Time.deltaTime);
-		// transform.Rotate(Vector3.up * initRotSpeed * Time.deltaTime);
 	}
 }

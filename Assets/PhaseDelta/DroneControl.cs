@@ -3,14 +3,19 @@ using System.Collections;
 
 public class DroneControl : MonoBehaviour {
 	
-	public float upPower;
+	public float upPowerMin;
+	public float upPowerMax;
 	public float turnSpeed;
+	
+	public float maxSpeed;
 	
 	private int playerNum = 0;
 	
 	private Rigidbody rb;
 	
 	public Transform target;
+	
+	private float bladePower;
  
     float xAxis;
     float yAxis;
@@ -27,13 +32,14 @@ public class DroneControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+		bladePower = (Input.GetAxis("Thrust_"+playerNum) + 1) / 2;
 	
 		Vector3 direction = new Vector3(Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical"));
 		if(direction.magnitude > 0.1f)
 		{
 			// SO CLOSE
-			transform.Rotate(Vector3.forward * direction.x * -turnSpeed * Time.deltaTime);
-			transform.Rotate(Vector3.right * direction.z * turnSpeed * Time.deltaTime);
+			transform.Rotate(Vector3.forward * direction.x * -turnSpeed * Time.deltaTime, Space.World );
+			transform.Rotate(Vector3.right * direction.z * turnSpeed * Time.deltaTime, Space.World );
 			
 			// transform.Rotate(direction.z, 0, -direction.x);
 			// transform.Rotate(direction.z, 0, -direction.x, Space.World);
@@ -68,16 +74,36 @@ public class DroneControl : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-		if (Input.GetButton("Fire_"+playerNum))
-		{
+		
+		
+	
+		// if (Input.GetButton("Fire_"+playerNum))
+		// if (Input.GetAxis("Thrust_"+playerNum) > 0)
+		// {
 			// velocity.y = thrust;
 			// rb.AddForce(transform.up * thrust);
-			rb.AddForce(transform.up * upPower);
+			
+			float thrust = upPowerMax * bladePower;
+			rb.AddForce(transform.up * thrust);
 			
 			if (rb.angularVelocity != Vector3.zero)
 			{
 				rb.angularVelocity = Vector3.zero;
 			}
-		}
+		// }
+		
+		// float maxSpeed = 10;
+		
+		if(rb.velocity.magnitude > maxSpeed)
+        {
+			rb.velocity = rb.velocity.normalized * maxSpeed;
+			Debug.Log("T");
+        }
+		
+		// Debug.Log(bladePower);
+	}
+	
+	public float GetThrust () {
+		return bladePower;
 	}
 }
