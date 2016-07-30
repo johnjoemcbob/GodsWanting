@@ -40,37 +40,7 @@ public class DroneControl : MonoBehaviour {
 			// SO CLOSE
 			transform.Rotate(Vector3.forward * direction.x * -turnSpeed * Time.deltaTime, Space.World );
 			transform.Rotate(Vector3.right * direction.z * turnSpeed * Time.deltaTime, Space.World );
-			
-			// transform.Rotate(direction.z, 0, -direction.x);
-			// transform.Rotate(direction.z, 0, -direction.x, Space.World);
-			
-			// float rotateAmount = turnSpeed * -Mathf.Sign(Input.GetAxis("Horizontal"));
-			// transform.Rotate(Vector3.forward * rotateAmount * Time.deltaTime);
-			
-			 // var direction = (objectHit.transform.position - transform.position).normalized;
-     // transform.up = direction;
-			
-			  // var targetRotation = Quaternion.FromToRotation(Vector3.forward, Vector3.up) * Quaternion.LookRotation(direction);
-      // transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
-	  
-			// Vector3 targetDir = target.position - transform.position;
-			// Vector3 targetDir = direction;
-			
-			
-			// float step = turnSpeed * Time.deltaTime;
-			// Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
-			// Debug.DrawRay(transform.position, newDir, Color.red);
-			// transform.rotation = Quaternion.LookRotation(newDir);
-			// transform.eulerAngles = new Vector3(0, 90, 0);
-			
-			// transform.LookAt(target);
-			// Debug.Log(direction);
-			
 		}
-		
-		// direction = target.position - transform.position;
-		// Quaternion toRotation = Quaternion.FromToRotation(transform.up, direction);
-		// transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, turnSpeed * Time.time);
 	}
 	
 	void FixedUpdate () {

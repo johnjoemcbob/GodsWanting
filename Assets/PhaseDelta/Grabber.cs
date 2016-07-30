@@ -3,15 +3,8 @@ using System.Collections;
 
 public class Grabber : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	public Rigidbody rb;
+	// public HingeJoint hinge;
 	
 	void OnTriggerEnter (Collider other) {
 		
@@ -20,16 +13,29 @@ public class Grabber : MonoBehaviour {
 		if (c != null)
 		{
 			other.transform.SetParent(transform);
+			other.transform.localPosition = new Vector3(0.0f, -0.5f, 0);
 			
+			Debug.Log("G");
 			c.Grabbed();
 			
-			float newX = Random.Range(-0.5f, 0.5f);
-			float newZ = 0.6f - Mathf.Abs(newX);
+			// if (other.gameObject.GetComponent<FixedJoint>() == null)
+			// {
+				// other.gameObject.AddComponent<FixedJoint>();  
+				// other.gameObject.GetComponent<FixedJoint>().connectedBody = rb;
+			// }
 			
-			newZ = Random.Range(0, 2) == 0 ? newZ : -newZ;
+			// Debug.Break();
+			
+			// hinge.connectedBody = other.gameObject.GetComponent<Rigidbody>();
+			
+			// float newX = Random.Range(-0.5f, 0.5f);
+			// float newZ = 0.6f - Mathf.Abs(newX);
+			
+			// newZ = Random.Range(0, 2) == 0 ? newZ : -newZ;
 			
 			// other.transform.localPosition = new Vector3(newX, 0, newZ);
-			other.transform.localPosition = new Vector3(0.6f, 0, 0);
+			// other.transform.localPosition = new Vector3(0.6f, 0, 0);
+			// other.transform.localPosition = new Vector3(0.0f, -0.5f, 0);
 			
 		}
 	}

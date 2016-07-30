@@ -14,6 +14,10 @@ public class ObjectPool : MonoBehaviour {
 	private GameObject poolsParent;
 	
 	public void SetUp (int size, GameObject newGO, bool wG) {
+		SetUp(newGO, size, wG);
+	}
+	
+	public void SetUp (GameObject newGO, int size = 15, bool wG = true) {
 		pooledObjects = new List<GameObject>();
 		
 		gO = newGO;
