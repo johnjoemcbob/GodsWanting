@@ -12,11 +12,11 @@ public class Grabber : MonoBehaviour {
 	
 		if (c != null)
 		{
-			other.transform.SetParent(transform);
-			other.transform.localPosition = new Vector3(0.0f, -0.5f, 0);
+			// other.transform.SetParent(transform);
+			// other.transform.localPosition = new Vector3(0.0f, -0.5f, 0);
 			
-			Debug.Log("G");
-			c.Grabbed();
+			// Debug.Log("G");
+			// c.Grabbed();
 			
 			// if (other.gameObject.GetComponent<FixedJoint>() == null)
 			// {

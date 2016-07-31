@@ -6,27 +6,36 @@ public class DroneControl : MonoBehaviour {
 	public float upPowerMin;
 	public float upPowerMax;
 	public float turnSpeed;
+	public float fineTurnSpeed;
 	
 	public float maxSpeed;
+	public float fineMaxSpeed;
 	
 	private int playerNum = 0;
 	
 	private Rigidbody rb;
+	// private LineRenderer line;
+	// private Renderer lineR;
 	
-	public Transform target;
+	private float currentTurnSpeed;
+	private float currentMaxSpeed;
 	
 	private float bladePower;
  
-    float xAxis;
-    float yAxis;
+	private bool isLasering;
 	
 	void Awake () {
 		rb = GetComponent<Rigidbody>();
+		// line = GetComponentInChildren<LineRenderer>();
+		// lineR = line.GetComponent<Renderer>();
+		
+		// line.enabled = false;
 	}
 	
 	// Use this for initialization
 	void Start () {
-	
+		currentTurnSpeed = turnSpeed;
+		currentMaxSpeed = maxSpeed;
 	}
 	
 	// Update is called once per frame
@@ -38,9 +47,21 @@ public class DroneControl : MonoBehaviour {
 		if(direction.magnitude > 0.1f)
 		{
 			// SO CLOSE
-			transform.Rotate(Vector3.forward * direction.x * -turnSpeed * Time.deltaTime, Space.World );
-			transform.Rotate(Vector3.right * direction.z * turnSpeed * Time.deltaTime, Space.World );
+			if (isLasering == false)
+			{
+				transform.Rotate(Vector3.forward * direction.x * -currentTurnSpeed * Time.deltaTime, Space.World );
+				transform.Rotate(Vector3.right * direction.z * currentTurnSpeed * Time.deltaTime, Space.World );	
+			}else{
+				transform.Rotate(Vector3.forward * direction.x * -currentTurnSpeed * Time.deltaTime);
+				transform.Rotate(Vector3.right * direction.z * currentTurnSpeed * Time.deltaTime);
+			}
 		}
+		
+		// if (Input.GetButtonDown("Dash_0")) 
+		// {
+			// StopCoroutine("FireBeam");
+			// StartCoroutine("FireBeam");
+		// }
 	}
 	
 	void FixedUpdate () {
@@ -64,13 +85,68 @@ public class DroneControl : MonoBehaviour {
 		
 		// float maxSpeed = 10;
 		
-		if(rb.velocity.magnitude > maxSpeed)
+		if(rb.velocity.magnitude > currentMaxSpeed)
         {
-			rb.velocity = rb.velocity.normalized * maxSpeed;
-			Debug.Log("T");
+			rb.velocity = rb.velocity.normalized * currentMaxSpeed;
+			// Debug.Log("T");
         }
 		
 		// Debug.Log(bladePower);
+	}
+	
+	// IEnumerator FireBeam () {
+		// line.enabled = true;
+		
+		// while (Input.GetButton("Dash_0"))
+		// {
+			// lineR.material.mainTextureOffset = new Vector2(0, Time.time);
+		
+			// Ray ray = new Ray (transform.position, -transform.up);
+			// RaycastHit hit; 
+			// Physics.Raycast(ray, out hit, 100);
+			
+			// if (hit.collider != null)
+			// {
+				// Laserable lase = hit.collider.GetComponent<Laserable>();
+				// if (lase != null)
+				// {
+					// lase.StartLasering();
+					// // Absorb(1);
+				// }
+			// }
+			
+			// line.SetPosition(0, ray.origin);
+			
+			// // if (Physics.Raycast(ray, out hit, 100))
+			// if (hit.collider)
+			// {
+				// line.SetPosition(1, hit.point);
+			// }else{
+				// line.SetPosition(1, ray.GetPoint(100));
+			// }
+			
+			// yield return null;
+		// }
+		
+		// line.enabled = false;
+	// }
+	
+	// public void Absorb (float scaleIncrease) {
+		// transform.localScale += new Vector3(scaleIncrease, scaleIncrease, scaleIncrease); 
+	// }
+	
+	public void LaserOn () {
+		currentTurnSpeed = fineTurnSpeed;
+		currentMaxSpeed = fineMaxSpeed;
+		
+		isLasering = true;
+	}
+	
+	public void LaserOff () {
+		currentTurnSpeed = turnSpeed;
+		currentMaxSpeed = maxSpeed;
+		
+		isLasering = false;
 	}
 	
 	public float GetThrust () {
