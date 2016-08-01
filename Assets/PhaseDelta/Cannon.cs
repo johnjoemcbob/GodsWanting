@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Cannon : MonoBehaviour {
 	
 	public GameObject topParent;
+	public Laser laserScript;
 	
 	public float fireForce;
 
@@ -29,13 +30,16 @@ public class Cannon : MonoBehaviour {
 	void Fire () {
 		if (ammo.Count > 0)
 		{
+			Deflate();
+			laserScript.NullifyLaser(ammo[ammo.Count-1]);
+			
 			ammo[ammo.Count-1].SetActive(true);
 			ammo[ammo.Count-1].transform.position = transform.position;
 			ammo[ammo.Count-1].GetComponent<Rigidbody>().AddForce(-transform.up * fireForce);
 			
-			ammo.RemoveAt(ammo.Count-1);
+			Debug.Break();
 			
-			Deflate();
+			ammo.RemoveAt(ammo.Count-1);
 		}
 	}
 	

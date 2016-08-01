@@ -24,22 +24,27 @@ public class Connector : MonoBehaviour {
 		if (transform.childCount > 0)
 		{
 			currentObject = transform.GetChild(0).gameObject;
-			currentObject.transform.SetParent(null);
+			// currentObject.transform.SetParent(null);
 		}
 	}
 	
 	void OnEnable () {
 		if (initialized)
 		{
-			AddLimb();
+			// AddLimb();
+			// currentObject.SetActive(true);
+			// currentObject.transform.SetParent(null);
 		}
 	}
 	
 	void OnDisable () {
 		if (currentObject != null)
 		{
-			currentObject.SetActive(false);
-			currentObject = null;
+			// currentObject.SetActive(false);
+			// currentObject.transform.SetParent(transform);
+			
+			// currentObject = null;
+			rb.isKinematic = false;
 		}
 		
 		if (initialized == false)
@@ -49,9 +54,9 @@ public class Connector : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter (Collider other) {
-		if (other.gameObject.name == "CollectRadius")
+		if (other.gameObject.name == "Body")
 		{
-			
+			Debug.Log("AttemptAttachYo");
 		}
 	}
 	

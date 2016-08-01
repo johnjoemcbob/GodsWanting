@@ -12,4 +12,17 @@ public class Body : MonoBehaviour {
 	void Update () {
 	
 	}
+	
+	void OnTriggerEnter (Collider other) {
+		Connector c = other.gameObject.GetComponent<Connector>();
+	
+		if (c != null)
+		{
+			if (gameObject.GetComponent<FixedJoint>() == null)
+			{
+				gameObject.AddComponent<FixedJoint>();  
+				gameObject.GetComponent<FixedJoint>().connectedBody = other.gameObject.GetComponent<Rigidbody>();
+			}
+		}
+	}
 }

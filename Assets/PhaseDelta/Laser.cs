@@ -11,6 +11,7 @@ public class Laser : MonoBehaviour {
 	private DroneControl controlScript;
 	
 	private GameObject currentTarget;
+	private GameObject cannotTarget;
 	
 	void Awake () {
 		line = GetComponent<LineRenderer>();
@@ -41,28 +42,7 @@ public class Laser : MonoBehaviour {
 			RaycastHit hit; 
 			Physics.Raycast(ray, out hit, 100);
 			
-			if (hit.collider != null)
-			{
-				Laserable lase = hit.collider.GetComponent<Laserable>();
-				if (lase != null)
-				{
-					if (hit.collider.gameObject != currentTarget)
-					{
-						if (currentTarget != null)
-						{
-							currentTarget.GetComponent<Laserable>().StopLasering();
-						}
-						
-						currentTarget = hit.collider.gameObject;
-						lase.StartLasering(this);
-						// currentTarget = lase.StartLasering(this);
-					}
-				}else if (currentTarget != null)
-				{
-					currentTarget.GetComponent<Laserable>().StopLasering();
-					currentTarget = null;
-				}
-			}
+			AttemptToLase(hit);
 			
 			line.SetPosition(0, ray.origin);
 			
@@ -81,8 +61,52 @@ public class Laser : MonoBehaviour {
 		controlScript.LaserOff();
 	}
 	
+	void AttemptToLase (RaycastHit hit) {
+		if (hit.collider != null)
+		{
+			Laserable lase = hit.collider.GetComponent<Laserable>();
+			if (lase != null)
+			{
+				if (hit.collider.gameObject != currentTarget && hit.collider.gameObject != cannotTarget)
+				{
+					if (currentTarget != null)
+					{
+						currentTarget.GetComponent<Laserable>().StopLasering();
+					}
+					
+					currentTarget = hit.collider.gameObject;
+					lase.StartLasering(this);
+					// currentTarget = lase.StartLasering(this);
+				}
+			}else if (currentTarget != null)
+			{
+				currentTarget.GetComponent<Laserable>().StopLasering();
+				currentTarget = null;
+			}
+		}
+	}
+	
 	public void Absorb (GameObject GO, float scaleIncrease = 0.4f) {
 		cannon.AddToAmmo(GO);
 		topParent.transform.localScale += new Vector3(scaleIncrease, scaleIncrease, scaleIncrease); 
+	}
+	
+	public void NullifyLaser (GameObject GO) {
+		StartCoroutine("Disallow", GO);
+	}
+	
+	IEnumerator Disallow (GameObject GO) {
+		
+		cannotTarget = GO;
+		float t = 0;
+		
+		while (t < 0.5f) {
+			
+			t += Time.deltaTime;
+			
+			yield return null;
+		}
+		
+		cannotTarget = null;
 	}
 }

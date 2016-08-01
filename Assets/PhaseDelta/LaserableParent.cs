@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Laserable : MonoBehaviour {
+public class LaserableParent : MonoBehaviour {
 	
 	// private int 
 	// private bool 

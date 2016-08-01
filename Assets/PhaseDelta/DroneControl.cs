@@ -57,6 +57,8 @@ public class DroneControl : MonoBehaviour {
 			}
 		}
 		
+		 // transform.RotateAround(Vector3.zero, Vector3.up, 20 * Time.deltaTime);
+		
 		// if (Input.GetButtonDown("Dash_0")) 
 		// {
 			// StopCoroutine("FireBeam");
