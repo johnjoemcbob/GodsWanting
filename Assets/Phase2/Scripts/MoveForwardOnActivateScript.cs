@@ -24,7 +24,7 @@ public class MoveForwardOnActivateScript : MoveOnActivateScript
 			( DirectionObject.transform.forward.x * MoveSpeed.z )
 		);
 
-		RotationBody.transform.rotation = Quaternion.LookRotation( DirectionObject.transform.forward );
+		RotationBody.GetComponent<MoveTowardsTargetScript>().TargetRotation = Quaternion.LookRotation( DirectionObject.transform.forward ).eulerAngles;
 
 		return base.OnActivate();
 	}

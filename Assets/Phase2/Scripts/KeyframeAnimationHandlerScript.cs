@@ -1,7 +1,7 @@
 ﻿// Matthew Cormack (@johnjoemcbob / www.matthewcormack.co.uk)
-// 20/07/16
+// 27/07/16
 //
-// The Gods Are Wanting
+// Interview Demo
 //
 // Keyframe Animation GameObject Handler Script
 // Handles communication between Unity scene gameobjects
@@ -20,6 +20,10 @@ public class KeyframeAnimationHandlerScript : ActivatableScript
 
 	public float AnimationSpeed = 1;
 	public float AnimationTime = 1;
+	public float AnimationOffset = 0;
+	public bool Loop = false;
+	public float DeactivateResetTime = 0;
+	public bool OnlyDeactivateOnEnd = true;
 
 	public KeyframeStruct[] Keyframes;
 
@@ -30,7 +34,9 @@ public class KeyframeAnimationHandlerScript : ActivatableScript
 	// Use this for initialization
 	void Start()
 	{
-		if ( Keyframes.Length > 0 )
+		//Time_Sample = AnimationOffset;
+
+        if ( Keyframes.Length > 0 )
 		{
 			Animation.ResizeKeyframeArray( Keyframes.Length );
 			foreach ( KeyframeStruct keyframe in Keyframes )
@@ -51,10 +57,18 @@ public class KeyframeAnimationHandlerScript : ActivatableScript
 		{
 			if ( Time_Sample > AnimationTime )
 			{
+				Time_Sample = AnimationTime;
 				OnDeactivate();
 			}
 		}
-		KeyframeStruct keyframe = Animation.GetKeyframeAtTime( Time_Sample );
+		float time = Time_Sample;
+		{
+			if ( AnimationOffset != 0 )
+			{
+				time = ( time + AnimationOffset ) % AnimationTime;
+            }
+		}
+        KeyframeStruct keyframe = Animation.GetKeyframeAtTime( time );
 
 		// Use keyframe data
 		if ( UsePosition )
@@ -86,10 +100,21 @@ public class KeyframeAnimationHandlerScript : ActivatableScript
 
 	public override bool OnDeactivate()
 	{
+		if ( ( Time_Sample < 1 ) && OnlyDeactivateOnEnd )
+		{
+			return false;
+		}
+
 		bool success = base.OnDeactivate();
 		if ( !success ) return false;
 
-		Time_Sample = 0;
+		Time_Sample = DeactivateResetTime;
+
+		if ( Loop )
+		{
+			OnActivate();
+		}
+
 		return true;
 	}
 }

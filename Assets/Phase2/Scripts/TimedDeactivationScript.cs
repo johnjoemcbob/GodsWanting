@@ -17,6 +17,15 @@ public class TimedDeactivationScript : ActivatableScript
 
 	private float StartTime = -1;
 
+	void Start()
+	{
+		if ( Activated )
+		{
+			Activated = false;
+			OnActivate();
+		}
+	}
+
 	void Update()
 	{
 		if ( StartTime == -1 ) return;

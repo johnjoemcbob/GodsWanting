@@ -26,7 +26,7 @@ public class EyeShouldSpawnScript : MonoBehaviour
 				break;
 			}
 		}
-		if ( collision || ( Random.Range( 0, 10 ) <= 7 ) )
+		if ( collision || ( Random.Range( 0, 10 ) <= 5 ) )
 		{
 			gameObject.SetActive( false );
 		}

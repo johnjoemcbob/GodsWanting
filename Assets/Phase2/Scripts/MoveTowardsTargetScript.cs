@@ -12,17 +12,37 @@ using UnityEngine;
 
 public class MoveTowardsTargetScript : MonoBehaviour
 {
-	public float MoveSpeed = 1;
+	public bool UseStartingValues = false;
+    public float MoveSpeed = 1;
 	public float TurnSpeed = 1;
+
+	public bool UsePosition = true;
+	public bool UseRotation = true;
+	public bool UseScale = true;
 
 	public Vector3 TargetPosition;
 	public Vector3 TargetRotation;
 	public Vector3 TargetScale;
 
-	// Update is called once per frame
+	void Start()
+	{
+		if ( UseStartingValues )
+		{
+			TargetPosition = transform.position;
+			TargetRotation = transform.eulerAngles;
+			TargetScale = transform.localScale;
+		}
+	}
+
 	void Update()
 	{
-		transform.position += ( TargetPosition - transform.position ) * Time.deltaTime * MoveSpeed;
-		transform.rotation = Quaternion.RotateTowards( transform.rotation, Quaternion.Euler( TargetRotation ), Time.deltaTime * TurnSpeed );
+		if ( UsePosition )
+		{
+			transform.position += ( TargetPosition - transform.position ) * Time.deltaTime * MoveSpeed;
+		}
+		if ( UseRotation )
+		{
+			transform.rotation = Quaternion.RotateTowards( transform.rotation, Quaternion.Euler( TargetRotation ), Time.deltaTime * TurnSpeed );
+		}
 	}
 }
