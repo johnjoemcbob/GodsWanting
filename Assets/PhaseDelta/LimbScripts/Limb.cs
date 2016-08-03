@@ -4,6 +4,10 @@ using System.Collections;
 public class Limb : MonoBehaviour {
 	
 	// public LimbData limbData;
+	public string type = "null";
+	public string name = "default";
+	public string desc = "description";
+
 	public float health;
 	public float speed;
 	public float damage;
