@@ -1,16 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Body : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
 	
+	private List<Limb> attachedLimbs;
+	
+	void Awake () {
+		attachedLimbs = new List<Limb>();
 	}
 	
-	// Update is called once per frame
 	void Update () {
+		if (Input.GetKeyDown("a"))
+		{
+			ActivateLimbs();
+		}
+	}
 	
+	public void ActivateLimbs () {
+		ActivateLegs();
+		
+		for (int i = 0; i < attachedLimbs.Count; i++)
+		{
+			attachedLimbs[i].ActivateMotion();
+		}
+	}
+	
+	public void ActivateLegs () {
+		
 	}
 	
 	void OnTriggerEnter (Collider other) {
@@ -22,6 +39,10 @@ public class Body : MonoBehaviour {
 			{
 				gameObject.AddComponent<FixedJoint>();  
 				gameObject.GetComponent<FixedJoint>().connectedBody = other.gameObject.GetComponent<Rigidbody>();
+				
+				// other.gameObject.GetComponent<Rigidbody>().mass = 1;
+				
+				attachedLimbs.Add(other.gameObject.GetComponentInChildren<Limb>());
 			}
 		}
 	}

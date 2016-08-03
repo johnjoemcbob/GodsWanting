@@ -1,58 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LaserableParent : MonoBehaviour {
+public class LaserableParent : Laserable {
 	
-	// private int 
-	// private bool 
+	private HingeJoint hinge;
+	private Limb limbScript;
 	
-	public float laseTime = 1;
-	public GameObject laseTarget;
-	
-	private Rigidbody rb;
-	
-	void Awake () {
-		rb = GetComponent<Rigidbody>();
+	public override void Awake () {
+		base.Awake();
 		
-		if (laseTarget == null)
+		hinge = GetComponentInChildren<HingeJoint>();
+		limbScript = GetComponentInChildren<Limb>();
+	}
+	
+	public override void Lase (Laser l) {
+		base.Lase(l);
+		
+		if (hinge)
 		{
-			laseTarget = gameObject;
-		}
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-	
-	public void StartLasering (Laser l) {
-		// Lase();
-		StartCoroutine("Laserr", l);
-		// return laseTarget;
-	}
-	
-	public void StopLasering () {
-		StopCoroutine("Laserr");
-	}
-	
-	IEnumerator Laserr (Laser l) {
-		
-		// rb.isKinematic = true;
-		float t = 0;
-		
-		// while (true)
-		while (t < laseTime)
-		{
-			t += Time.deltaTime;
-			// Debug.Log(t);
-			yield return null;
+			// hinge.useMotor = false;
 		}
 		
-		Lase(l);
-	}
-	
-	public void Lase (Laser l) {
-		// gameObject.SetActive(false);
-		l.Absorb(gameObject);
+		// rb.mass = 100;
+		
+		limbScript.DeactivateMotion();
 	}
 }

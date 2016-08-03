@@ -34,10 +34,12 @@ public class Cannon : MonoBehaviour {
 			laserScript.NullifyLaser(ammo[ammo.Count-1]);
 			
 			ammo[ammo.Count-1].SetActive(true);
-			ammo[ammo.Count-1].transform.position = transform.position;
+			
+			ammo[ammo.Count-1].transform.position = transform.position + -transform.up * 1;
+			
 			ammo[ammo.Count-1].GetComponent<Rigidbody>().AddForce(-transform.up * fireForce);
 			
-			Debug.Break();
+			// Debug.Break();
 			
 			ammo.RemoveAt(ammo.Count-1);
 		}

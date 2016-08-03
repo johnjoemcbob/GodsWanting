@@ -12,6 +12,9 @@ public class Connector : MonoBehaviour {
 	private GameObject currentObject;
 	private bool initialized;
 	
+	public Vector3 velocity;
+	public Vector3 angularVelocity;
+	
 	void Awake () {
 		limbManager = GameObject.Find("Managers").GetComponent<LimbManager>();
 		
@@ -35,17 +38,25 @@ public class Connector : MonoBehaviour {
 			// currentObject.SetActive(true);
 			// currentObject.transform.SetParent(null);
 		}
+		
+			rb.velocity = Vector3.zero;
+			// rb.isKinematic = false;
 	}
 	
 	void OnDisable () {
-		if (currentObject != null)
-		{
+		// if (currentObject != null)
+		// {
 			// currentObject.SetActive(false);
 			// currentObject.transform.SetParent(transform);
 			
 			// currentObject = null;
+			
+			rb.velocity = Vector3.zero;
 			rb.isKinematic = false;
-		}
+			rb.useGravity = false;
+			
+			rb.constraints = RigidbodyConstraints.None;
+		// }
 		
 		if (initialized == false)
 		{
@@ -88,4 +99,26 @@ public class Connector : MonoBehaviour {
 	void ClearLimb () {
 		
 	}
+	
+	// void Update () {
+		// if (Input.GetKeyDown("l"))
+		// {
+			// ForceTest();
+		// }
+		
+		// if (Input.GetKeyDown("k"))
+		// {
+			// ForceTest();
+			// Debug.Break();
+		// }
+		
+		// angularVelocity = rb.angularVelocity;
+		// velocity = rb.velocity;
+	// }
+	
+	// void ForceTest () {
+		
+		// rb.mass = 100;
+		// rb.AddForce(-transform.right * 25000);
+	// }
 }

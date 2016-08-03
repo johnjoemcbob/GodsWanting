@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Laser : MonoBehaviour {
 	
+	public float laserTime;
 	public GameObject topParent;
 	public Cannon cannon;
 	
@@ -13,10 +14,14 @@ public class Laser : MonoBehaviour {
 	private GameObject currentTarget;
 	private GameObject cannotTarget;
 	
+	// private Rigidbody parentRB;
+	
 	void Awake () {
 		line = GetComponent<LineRenderer>();
 		lineR = line.GetComponent<Renderer>();
 		controlScript = GetComponentInParent<DroneControl>();
+		
+		// parentRB = topParent.GetComponent<Rigidbody>();
 		
 		line.enabled = false;
 	}
@@ -34,7 +39,10 @@ public class Laser : MonoBehaviour {
 		line.enabled = true;
 		controlScript.LaserOn();
 		
-		while (Input.GetButton("Dash_0"))
+		float t = 0;
+		
+		while (Input.GetButton("Dash_0") && t < laserTime)
+		// while (true)
 		{
 			lineR.material.mainTextureOffset = new Vector2(0, Time.time);
 		
@@ -54,6 +62,7 @@ public class Laser : MonoBehaviour {
 				line.SetPosition(1, ray.GetPoint(100));
 			}
 			
+			t += Time.deltaTime;
 			yield return null;
 		}
 		
@@ -100,7 +109,8 @@ public class Laser : MonoBehaviour {
 		cannotTarget = GO;
 		float t = 0;
 		
-		while (t < 0.5f) {
+		// while (t < 0.5f) {
+		while (t < 15) {
 			
 			t += Time.deltaTime;
 			

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DroneControl : MonoBehaviour {
+public class DroneControl : MovePerpendicularToCameraScript {
 	
 	public float upPowerMin;
 	public float upPowerMax;
@@ -11,7 +11,7 @@ public class DroneControl : MonoBehaviour {
 	public float maxSpeed;
 	public float fineMaxSpeed;
 	
-	private int playerNum = 0;
+	// private int playerNum = 0;
 	
 	private Rigidbody rb;
 	// private LineRenderer line;
@@ -24,12 +24,18 @@ public class DroneControl : MonoBehaviour {
  
 	private bool isLasering;
 	
+	private Player playerScript;
+	
 	void Awake () {
 		rb = GetComponent<Rigidbody>();
 		// line = GetComponentInChildren<LineRenderer>();
 		// lineR = line.GetComponent<Renderer>();
 		
 		// line.enabled = false;
+		
+		playerScript = GetComponent<Player>();
+		
+		CameraParent = GameObject.Find("Phase1Camera");
 	}
 	
 	// Use this for initialization
@@ -41,9 +47,12 @@ public class DroneControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		bladePower = (Input.GetAxis("Thrust_"+playerNum) + 1) / 2;
+		bladePower = (Input.GetAxis("Thrust_"+playerScript.GetPlayerNum()) + 1) / 2;
 	
 		Vector3 direction = new Vector3(Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical"));
+		
+		direction = Move(direction);
+		
 		if(direction.magnitude > 0.1f)
 		{
 			// SO CLOSE
@@ -141,6 +150,7 @@ public class DroneControl : MonoBehaviour {
 		currentTurnSpeed = fineTurnSpeed;
 		currentMaxSpeed = fineMaxSpeed;
 		
+		rb.isKinematic = true;
 		isLasering = true;
 	}
 	
@@ -148,6 +158,7 @@ public class DroneControl : MonoBehaviour {
 		currentTurnSpeed = turnSpeed;
 		currentMaxSpeed = maxSpeed;
 		
+		rb.isKinematic = false;
 		isLasering = false;
 	}
 	

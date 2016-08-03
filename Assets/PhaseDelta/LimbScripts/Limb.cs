@@ -19,4 +19,12 @@ public class Limb : MonoBehaviour {
 	public virtual void AddToConcoction () {
 		
 	}
+	
+	public virtual void ActivateMotion () {
+	
+	}
+	
+	public virtual void DeactivateMotion () {
+		
+	}
 }
