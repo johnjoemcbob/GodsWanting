@@ -18,7 +18,14 @@ public class LimbArm : Limb {
 	private List<Vector3> startingPositions;
 	
 	// private float newScale = 1;
-	
+
+	public LimbArm()
+	{
+		type = "arm";
+		name = "Arm";
+		desc = "Flails! Lots!";
+	}
+
 	// void OnEnable () {
 	void Awake () {
 		hinge = GetComponentInChildren<HingeJoint>();

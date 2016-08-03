@@ -4,9 +4,10 @@ using System.Collections.Generic;
 
 public class Body : MonoBehaviour {
 	
-	private List<Limb> attachedLimbs;
-	
-	void Awake () {
+	public List<Limb> attachedLimbs;
+
+	public Body()
+	{
 		attachedLimbs = new List<Limb>();
 	}
 	
