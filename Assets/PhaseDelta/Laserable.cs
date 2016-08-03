@@ -7,17 +7,18 @@ public class Laserable : MonoBehaviour {
 	// private bool 
 	
 	public float laseTime = 1;
-	public GameObject laseTarget;
+	// public GameObject laseTarget;
 	
-	private Rigidbody rb;
+	[HideInInspector]
+	public Rigidbody rb;
 	
-	void Awake () {
+	public virtual void Awake () {
 		rb = GetComponent<Rigidbody>();
 		
-		if (laseTarget == null)
-		{
-			laseTarget = gameObject;
-		}
+		// if (laseTarget == null)
+		// {
+			// laseTarget = gameObject;
+		// }
 	}
 	
 	// Update is called once per frame
@@ -51,7 +52,7 @@ public class Laserable : MonoBehaviour {
 		Lase(l);
 	}
 	
-	public void Lase (Laser l) {
+	public virtual void Lase (Laser l) {
 		// gameObject.SetActive(false);
 		l.Absorb(gameObject);
 	}
