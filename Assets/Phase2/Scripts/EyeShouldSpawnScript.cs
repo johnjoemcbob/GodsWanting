@@ -11,9 +11,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class EyeShouldSpawnScript : MonoBehaviour
+public class EyeShouldSpawnScript : ActivatableScript
 {
 	public List<Collider> Ignore;
+
+	private bool Opening = false;
+	private bool Closing = false;
+	private Vector3 TargetScale;
 
 	void Start()
 	{
@@ -30,5 +34,37 @@ public class EyeShouldSpawnScript : MonoBehaviour
 		{
 			gameObject.SetActive( false );
 		}
+
+		// Eyes start closed anyway
+		TargetScale = transform.localScale;
+		transform.localScale = Vector3.zero;
+    }
+
+	void Update()
+	{
+		if ( Opening )
+		{
+			transform.localScale = Vector3.Lerp( transform.localScale, TargetScale, Time.deltaTime );
+		}
+	}
+
+	public override bool OnActivate()
+	{
+		if ( !base.OnActivate() ) return false;
+
+		Opening = true;
+		Closing = false;
+
+		return true;
+	}
+
+	public override bool OnDeactivate()
+	{
+		if ( !base.OnDeactivate() ) return false;
+
+		Opening = false;
+		Closing = true;
+
+		return true;
 	}
 }
