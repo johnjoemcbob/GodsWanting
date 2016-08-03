@@ -14,21 +14,30 @@ public class Laser : MonoBehaviour {
 	private GameObject currentTarget;
 	private GameObject cannotTarget;
 	
+	private Player playerScript;
+	
 	// private Rigidbody parentRB;
 	
 	void Awake () {
 		line = GetComponent<LineRenderer>();
 		lineR = line.GetComponent<Renderer>();
 		controlScript = GetComponentInParent<DroneControl>();
+		playerScript = GetComponentInParent<Player>();
 		
 		// parentRB = topParent.GetComponent<Rigidbody>();
 		
 		line.enabled = false;
 	}
 	
+	void Start () {
+		// GetComponent<LineRenderer>().material.color = playerScript.GetPlayerColor();
+		line.material.SetColor("_EmisColor", playerScript.GetPlayerColor());
+		// Debug.Log(lineR.material.color);
+	}
+	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetButtonDown("Dash_0")) 
+		if (Input.GetButtonDown("Shoulder_1_"+playerScript.GetPlayerNum())) 
 		{
 			StopCoroutine("FireBeam");
 			StartCoroutine("FireBeam");
@@ -41,7 +50,7 @@ public class Laser : MonoBehaviour {
 		
 		float t = 0;
 		
-		while (Input.GetButton("Dash_0") && t < laserTime)
+		while (Input.GetButton("Shoulder_1_"+playerScript.GetPlayerNum()) && t < laserTime)
 		// while (true)
 		{
 			lineR.material.mainTextureOffset = new Vector2(0, Time.time);

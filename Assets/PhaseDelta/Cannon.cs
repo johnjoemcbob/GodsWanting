@@ -11,12 +11,16 @@ public class Cannon : MonoBehaviour {
 
 	private List<GameObject> ammo;
 	
+	private Player playerScript;
+	
 	void Awake () {
 		ammo = new List<GameObject>();
+		
+		playerScript = GetComponentInParent<Player>();
 	}
 	
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.JoystickButton10))
+		if (Input.GetButtonDown("Stick_In_"+playerScript.GetPlayerNum()))
 		{
 			Fire();
 		}

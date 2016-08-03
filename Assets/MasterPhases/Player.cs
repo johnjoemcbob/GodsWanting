@@ -12,9 +12,17 @@ public class Player : MonoBehaviour {
 		playerColor = c;
 		
 		// GetComponent<SpriteRenderer>().color = playerColor;
+		foreach (Renderer r in GetComponentsInChildren<Renderer>())
+		{
+			r.material.color = playerColor;
+		}
 	}
 	
 	public int GetPlayerNum () {
 		return playerNum;
+	}
+	
+	public Color GetPlayerColor () {
+		return playerColor;
 	}
 }

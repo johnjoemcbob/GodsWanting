@@ -47,9 +47,9 @@ public class DroneControl : MovePerpendicularToCameraScript {
 	// Update is called once per frame
 	void Update () {
 		
-		bladePower = (Input.GetAxis("Thrust_"+playerScript.GetPlayerNum()) + 1) / 2;
+		bladePower = (Input.GetAxis("Shoulder_2_"+playerScript.GetPlayerNum()) + 1) / 2;
 	
-		Vector3 direction = new Vector3(Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical"));
+		Vector3 direction = new Vector3(Input.GetAxis ("Stick_H_"+playerScript.GetPlayerNum()), 0, Input.GetAxis ("Stick_V_"+playerScript.GetPlayerNum()));
 		
 		direction = Move(direction);
 		
