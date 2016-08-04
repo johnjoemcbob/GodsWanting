@@ -3,6 +3,7 @@ using System.Collections;
 
 public class DroneControl : MovePerpendicularToCameraScript {
 	
+	
 	public float upPowerMin;
 	public float upPowerMax;
 	public float turnSpeed;
@@ -10,6 +11,8 @@ public class DroneControl : MovePerpendicularToCameraScript {
 	
 	public float maxSpeed;
 	public float fineMaxSpeed;
+	
+	public float distanceToRespawn;
 	
 	// private int playerNum = 0;
 	
@@ -73,6 +76,15 @@ public class DroneControl : MovePerpendicularToCameraScript {
 			// StopCoroutine("FireBeam");
 			// StartCoroutine("FireBeam");
 		// }
+		
+		if (Vector3.Distance(Vector3.zero, transform.position) > distanceToRespawn)
+		{
+			transform.position = playerScript.GetPlayerSpawn();
+			transform.rotation = Quaternion.identity;
+			
+			rb.angularVelocity = Vector3.zero;
+			rb.velocity = Vector3.zero;
+		}
 	}
 	
 	void FixedUpdate () {

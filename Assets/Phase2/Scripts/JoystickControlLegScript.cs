@@ -18,6 +18,11 @@ public class JoystickControlLegScript : MovePerpendicularToCameraScript
 
 	void Update()
 	{
+		if ( CameraParent == null )
+		{
+			CameraParent = Camera.main.gameObject;
+		}
+
 		if ( Joystick_Horizontal == "" ) return;
 		if ( Joystick_Vertical == "" ) return;
 

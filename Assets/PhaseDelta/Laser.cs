@@ -4,6 +4,7 @@ using System.Collections;
 public class Laser : MonoBehaviour {
 	
 	public float laserTime;
+	public float playerPushForce;
 	public GameObject topParent;
 	public Cannon cannon;
 	
@@ -100,6 +101,12 @@ public class Laser : MonoBehaviour {
 			{
 				currentTarget.GetComponent<Laserable>().StopLasering();
 				currentTarget = null;
+			}
+			
+			if (hit.collider.GetComponentInParent<Player>())
+			{
+				hit.collider.GetComponentInParent<Rigidbody>().AddForceAtPosition(transform.forward * playerPushForce, hit.point);
+				// Debug.Log("D");
 			}
 		}
 	}

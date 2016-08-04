@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour {
 	public static int noOfPlayers = 4;
 	public static int noOfTeams = 2;
 	
+	public float phase1Timer;
+	
 	public GameObject player;
 	public GameObject god;
 	
@@ -45,6 +47,7 @@ public class GameManager : MonoBehaviour {
 	void Start () {
 		// noOfPlayersSG.SetUp(noOfPlayers, UpdateNoOfPlayers);
 		StartGame();
+		StartPhase2(); // dziek remove me yeah okay good we're great fam
 		
 		// levelElements.SetActive(false);
 	}
@@ -59,7 +62,7 @@ public class GameManager : MonoBehaviour {
 			GameObject tempPlayer = Instantiate(player, playerSpawnPositions[i], Quaternion.identity) as GameObject;
 			
 			
-			tempPlayer.GetComponentInChildren<Player>().SetUp(i, playerColor[i]);
+			tempPlayer.GetComponentInChildren<Player>().SetUp(i, playerColor[i], playerSpawnPositions[i]);
 			// temp.transform.SetParent(currentLevel.transform);
 			
 			
@@ -68,14 +71,35 @@ public class GameManager : MonoBehaviour {
 		for (int i = 0; i < noOfTeams; i++)
 		{
 			GameObject tempBoss = Instantiate(god, bossSpawnPositions[i], Quaternion.identity) as GameObject;
+			int leg = 0;
+			foreach ( JoystickControlLegScript joystick in tempBoss.GetComponentsInChildren<JoystickControlLegScript>() )
+			{
+				joystick.CameraParent = phase2Elements;
+				joystick.Joystick_Horizontal = "Stick_H_" + ( i * 2 + leg );
+				joystick.Joystick_Vertical = "Stick_V_" + ( i * 2 + leg );
+				leg++;
+			}
 		}
+		
+		StartCoroutine("Timer");
 	}
 	
 	public void StartPhase2 () {
-		
+		phase2Elements.SetActive( true );
+		phase2Elements.GetComponent<KeyframeAnimationHandlerScript>().OnActivate();
 	}
 	
 	public void TheEnd () {
 		
+	}
+	
+	IEnumerator Timer () {
+		float t = 0;
+		
+		while (t < phase1Timer)
+		{
+			t += Time.deltaTime;
+			yield return null;
+		}
 	}
 }
