@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
@@ -7,6 +8,10 @@ public class GameManager : MonoBehaviour {
 	public static int noOfTeams = 2;
 	
 	public float phase1Timer;
+	
+	public Slider timerSlider;
+	public GameObject gameOverScreen;
+	public Text gameOverText;
 	
 	public GameObject player;
 	public GameObject god;
@@ -23,6 +28,8 @@ public class GameManager : MonoBehaviour {
 	
 	private Vector3[] playerSpawnPositions;
 	private Vector3[] bossSpawnPositions;
+	
+	private GameObject[] players;
 	
 	// public SliderGroup noOfPlayersSG;
 	
@@ -41,13 +48,15 @@ public class GameManager : MonoBehaviour {
 		{
 			bossSpawnPositions[i] = bossSpawnObject.GetChild(i).position;
 		}
+		
+		players = new GameObject[noOfPlayers];
 	}
 	
 	// Use this for initialization
 	void Start () {
 		// noOfPlayersSG.SetUp(noOfPlayers, UpdateNoOfPlayers);
-		StartGame();
-		StartPhase2(); // dziek remove me yeah okay good we're great fam
+		// StartGame();
+		// StartPhase2(); // dziek remove me yeah okay good we're great fam
 		
 		// levelElements.SetActive(false);
 	}
@@ -61,7 +70,7 @@ public class GameManager : MonoBehaviour {
 		{
 			GameObject tempPlayer = Instantiate(player, playerSpawnPositions[i], Quaternion.identity) as GameObject;
 			
-			
+			players[i] = tempPlayer;
 			tempPlayer.GetComponentInChildren<Player>().SetUp(i, playerColor[i], playerSpawnPositions[i]);
 			// temp.transform.SetParent(currentLevel.transform);
 			
@@ -71,7 +80,8 @@ public class GameManager : MonoBehaviour {
 		for (int i = 0; i < noOfTeams; i++)
 		{
 			GameObject tempBoss = Instantiate(god, bossSpawnPositions[i], Quaternion.identity) as GameObject;
-
+			// tempBoss.GetComponent<SetUp(noO);
+			
 			// Initialise leg joysticks
 			int player = 0;
 			foreach ( JoystickControlLegScript joystick in tempBoss.GetComponentsInChildren<JoystickControlLegScript>() )
@@ -100,12 +110,19 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	public void StartPhase2 () {
+		phase1Elements.SetActive( false );
+		for (int i = 0; i < players.Length; i++)
+		{
+			players[i].SetActive(false);
+		}
+		
 		phase2Elements.SetActive( true );
 		phase2Elements.GetComponent<KeyframeAnimationHandlerScript>().OnActivate();
 	}
 	
-	public void TheEnd () {
-		
+	public void TheEnd (string t) {
+		gameOverScreen.SetActive(true);
+		gameOverText.text = "The Magnificent " + t + " Has Been Defeated"; 
 	}
 	
 	IEnumerator Timer () {
@@ -113,8 +130,11 @@ public class GameManager : MonoBehaviour {
 		
 		while (t < phase1Timer)
 		{
+			timerSlider.value = t / phase1Timer;
 			t += Time.deltaTime;
 			yield return null;
 		}
+		
+		StartPhase2();
 	}
 }

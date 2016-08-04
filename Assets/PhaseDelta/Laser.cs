@@ -103,11 +103,10 @@ public class Laser : MonoBehaviour {
 				currentTarget = null;
 			}
 			
-			if (hit.collider.GetComponentInParent<Player>())
-			{
-				hit.collider.GetComponentInParent<Rigidbody>().AddForceAtPosition(transform.forward * playerPushForce, hit.point);
-				// Debug.Log("D");
-			}
+			// if (hit.collider.GetComponentInParent<Player>())
+			// {
+				// hit.collider.GetComponentInParent<Rigidbody>().AddForceAtPosition(transform.forward * playerPushForce, hit.point);
+			// }
 		}
 	}
 	

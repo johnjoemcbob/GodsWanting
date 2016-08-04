@@ -23,6 +23,8 @@ public class Spawner : MonoBehaviour {
 		
 		GameObject go = objects.GetObject();
 		
+		spawnPos = new Vector3(Random.Range(-3, 3), 5, Random.Range(-3, 3));
+		
 		go.SetActive(true);
 		go.transform.position = spawnPos;
 		go.transform.rotation = Quaternion.identity;

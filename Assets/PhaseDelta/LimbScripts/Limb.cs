@@ -35,7 +35,7 @@ public class Limb : MonoBehaviour {
 		
 	}
 	
-	public virtual void ActivateMotion () {
+	public virtual void ActivateMotion (GameObject go) {
 	
 	}
 	

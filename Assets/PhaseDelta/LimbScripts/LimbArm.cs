@@ -15,6 +15,8 @@ public class LimbArm : Limb {
 	
 	private HingeJoint hinge;
 	
+	private GameObject target;
+	
 	private List<Vector3> startingPositions;
 	
 	// private float newScale = 1;
@@ -68,6 +70,8 @@ public class LimbArm : Limb {
 		// foreach (Transform child in transform)
 		// {
 			// child.localScale = new Vector3(newScale, newScale, newScale);
+			
+		InvokeRepeating("MoveAbout", 2, 2);
 	}
 	
 	
@@ -80,13 +84,14 @@ public class LimbArm : Limb {
 		// fistRB.isKinematic = true;
 	}
 	
-	public override void ActivateMotion () {
+	public override void ActivateMotion (GameObject go) {
 		// hinge.useMotor = true;
 		
 		upperRB.useGravity = false;
 		foreRB.useGravity = true;
 		fistRB.useGravity = true;
 		
+		target = go;
 		InvokeRepeating("Flail", 3, 3);
 	}
 	
@@ -120,10 +125,16 @@ public class LimbArm : Limb {
 		upperRB.useGravity = false;
 		foreRB.useGravity = false;
 		fistRB.useGravity = false;
+		
+		CancelInvoke("MoveAbout");
+	}
+	
+	void MoveAbout () {
+		fistRB.AddForce(new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * flailForce);
 	}
 	
 	void Flail () {
-		Debug.Log("Flail");
-		fistRB.AddForce((GameObject.Find("Target").transform.position - transform.position) * flailForce);
+		// Debug.Log("Flail");
+		fistRB.AddForce((target.transform.position - transform.position) * flailForce);
 	}
 }

@@ -12,6 +12,8 @@ public class Laserable : MonoBehaviour {
 	[HideInInspector]
 	public Rigidbody rb;
 	
+	private bool canLaser;
+	
 	public virtual void Awake () {
 		rb = GetComponent<Rigidbody>();
 		
@@ -28,7 +30,10 @@ public class Laserable : MonoBehaviour {
 	
 	public void StartLasering (Laser l) {
 		// Lase();
-		StartCoroutine("Laserr", l);
+		if (canLaser)
+		{
+			StartCoroutine("Laserr", l);
+		}
 		// return laseTarget;
 	}
 	
@@ -55,5 +60,9 @@ public class Laserable : MonoBehaviour {
 	public virtual void Lase (Laser l) {
 		// gameObject.SetActive(false);
 		l.Absorb(gameObject);
+	}
+	
+	public void CannotLaser () {
+		canLaser = false;
 	}
 }
