@@ -13,9 +13,15 @@ public class Limb : MonoBehaviour {
 	public float damage;
 	
 	private bool attached;
+	[HideInInspector]
+	public Damage damageScript;
 	
 	public virtual void SetUp (Rigidbody connectorRB) {
 		
+	}
+	
+	void Awake () {
+		damageScript = GetComponentInChildren<Damage>();
 	}
 	
 	void Update () {
@@ -47,6 +53,7 @@ public class Limb : MonoBehaviour {
 	
 	public virtual void Attach () {
 		attached = true;
+		damageScript.SetCanDamage();
 	}
 	
 	public virtual void AttemptClear () {

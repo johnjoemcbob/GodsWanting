@@ -92,6 +92,7 @@ public class LimbArm : Limb {
 		fistRB.useGravity = true;
 		
 		target = go;
+		damageScript.SetTarget(target);
 		InvokeRepeating("Flail", 3, 3);
 	}
 	

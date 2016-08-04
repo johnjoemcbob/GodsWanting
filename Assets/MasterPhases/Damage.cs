@@ -4,24 +4,42 @@ using System.Collections;
 public class Damage : MonoBehaviour {
 
 	public float damageAmount;
+	
+	private bool canDamage;
+	
+	private GameObject target;
 
 	void OnTriggerEnter (Collider other) {
 		
-		Health otherHealth = other.GetComponent<Health>();
-	
-		if (otherHealth)
+		if (other.gameObject == target)
 		{
-			otherHealth.TakeDamage(damageAmount);
+			Health otherHealth = other.GetComponent<Health>();
+		
+			if (otherHealth && canDamage)
+			{
+				otherHealth.TakeDamage(damageAmount);
+			}
 		}
 	}
 	
 	void OnCollisionEnter (Collision other) {
 		
-		Health otherHealth = other.gameObject.GetComponent<Health>();
-	
-		if (otherHealth)
+		if (other.gameObject == target)
 		{
-			otherHealth.TakeDamage(damageAmount);
+			Health otherHealth = other.gameObject.GetComponent<Health>();
+		
+			if (otherHealth && canDamage)
+			{
+				otherHealth.TakeDamage(damageAmount);
+			}
 		}
+	}
+	
+	public void SetTarget (GameObject go) {
+		target = go;
+	}
+	
+	public void SetCanDamage () {
+		canDamage = true;
 	}
 }
