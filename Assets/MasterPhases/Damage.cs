@@ -52,7 +52,7 @@ public class Damage : MonoBehaviour {
 		if ( target == null ) return;
 		if ( NextHit > Time.time ) return;
 
-		if ( Vector3.Distance( target.transform.position, transform.position ) < 1 )
+		if ( Vector3.Distance( target.transform.position, transform.position ) < 2 )
 		{
 			Health otherHealth = target.gameObject.GetComponentInChildren<Health>();
 			print( otherHealth );

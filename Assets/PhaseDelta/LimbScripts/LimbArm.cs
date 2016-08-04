@@ -99,7 +99,7 @@ public class LimbArm : Limb {
 		target = go;
 		print( "activate motion; " + target );
 		damageScript.SetTarget(target);
-		InvokeRepeating("Flail", 3, 3);
+		InvokeRepeating("Flail", Random.Range( 2f, 4f ), 3);
 	}
 	
 	public override void DeactivateMotion () {

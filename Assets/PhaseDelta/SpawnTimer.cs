@@ -31,7 +31,9 @@ public class SpawnTimer : MonoBehaviour {
 		while (true)
 		{
 			yield return new WaitForSeconds(objectSpawnInterval);
-			
+
+			spawnerScript.SpawnObject();
+			spawnerScript.SpawnObject();
 			spawnerScript.SpawnObject();
 			// spawnerScript.SpawnObject();
 			// spawnerScript.SpawnObject();
