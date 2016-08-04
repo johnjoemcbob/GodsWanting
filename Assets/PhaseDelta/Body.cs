@@ -10,6 +10,9 @@ public class Body : MonoBehaviour {
 	public GameObject otherGod;
 	
 	private Health health;
+	
+	private Vector3 spawnPos;
+	private Rigidbody rb;
 
 	public Body()
 	{
@@ -22,18 +25,29 @@ public class Body : MonoBehaviour {
 		health.dead = Dead2;
 		// health.damageCallback = Damage;
 		
-		
+		rb = GetComponent<Rigidbody>();
 	}
 	
-	// public void SetUp (GameObject go) {
-		// otherGod = go;
-	// }
+	public void SetUp (Vector3 v) {
+		spawnPos = v;
+	}
 	
 	void Update () {
 		// if (Input.GetKeyDown("a"))
 		// {
 			// ActivateLimbs();
 		// }
+		
+		if (Vector3.Distance(Vector3.zero, transform.position) > 30)
+		{
+			transform.parent.parent.position = spawnPos;
+			transform.rotation = Quaternion.identity;
+			
+			rb.angularVelocity = Vector3.zero;
+			rb.velocity = Vector3.zero;
+			
+			health.TakeDamage(10);
+		}
 	}
 	
 	public void ActivateLimbs () {

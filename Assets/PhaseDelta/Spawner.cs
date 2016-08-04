@@ -36,7 +36,7 @@ public class Spawner : MonoBehaviour {
 		
 		spawnPos = new Vector3(Random.Range(-3f, 3f), 5, Random.Range(-3f, 3f));
 		GameObject go = Instantiate(obj, spawnPos, Quaternion.identity) as GameObject;
-		spawnedLimbs.Add(go.GetComponent<Limb>());
+		spawnedLimbs.Add(go.GetComponentInChildren<Limb>());
 		
 	}
 	

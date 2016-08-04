@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
 	
 	public float phase1Timer;
 	
+	public GameObject phase1UI;
 	public Slider timerSlider;
 	public GameObject gameOverScreen;
 	public Text gameOverText;
@@ -33,6 +34,8 @@ public class GameManager : MonoBehaviour {
 	
 	private GameObject[] players;
 	
+	private Spawner spawnerScript;
+	
 	// public SliderGroup noOfPlayersSG;
 	
 	private GameObject currentLevel;
@@ -54,6 +57,8 @@ public class GameManager : MonoBehaviour {
 		}
 		
 		players = new GameObject[noOfPlayers];
+		
+		spawnerScript = GameObject.Find("Spawner").GetComponent<Spawner>();
 	}
 	
 	// Use this for initialization
@@ -87,6 +92,8 @@ public class GameManager : MonoBehaviour {
 		
 		// currentLevel = Instantiate(levelElements) as GameObject;
 		levelElements.SetActive(true);
+		phase1Elements.SetActive(true);
+		spawnerScript.Clear();
 	
 		for (int i = 0; i < noOfPlayers; i++)
 		{
@@ -103,7 +110,7 @@ public class GameManager : MonoBehaviour {
 		{
 			GameObject tempBoss = Instantiate(god, bossSpawnPositions[i], Quaternion.identity) as GameObject;
 			Gods.Add( tempBoss );
-			// tempBoss.GetComponent<SetUp(noO);
+			tempBoss.GetComponentInChildren<Body>().SetUp(bossSpawnPositions[i]);
 			
 			// Initialise leg joysticks
 			int player = 0;
@@ -166,6 +173,9 @@ public class GameManager : MonoBehaviour {
 		phase2Elements.SetActive( true );
 		phase2Elements.GetComponent<KeyframeAnimationHandlerScript>().OnActivate();
 		Phase2Started = Time.time;
+		
+		// spawnerScript.Clear();
+		phase1UI.SetActive(false);
 	}
 	
 	public void TheEnd (string t) {

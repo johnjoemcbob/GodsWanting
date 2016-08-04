@@ -29,6 +29,8 @@ public class Connector : MonoBehaviour {
 			currentObject = transform.GetChild(0).gameObject;
 			// currentObject.transform.SetParent(null);
 		}
+		
+		GetComponent<Renderer>().material.color = Color.blue;
 	}
 	
 	void OnEnable () {
