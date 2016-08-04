@@ -7,9 +7,11 @@
 // Activate other Activables all at once
 //
 
+using System.Collections.Generic;
+
 public class ActivateGroupScript : ActivatableScript
 {
-	public ActivatableScript[] Activatables;
+	public List<ActivatableScript> Activatables;
 
 	public override bool OnActivate()
 	{

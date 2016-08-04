@@ -9,12 +9,20 @@ public class GenerateNameScript : MonoBehaviour
 
 	public string Name = "";
 
+	public string[] BaseName = new string[] {
+		"Oru",
+		"Dziethew",
+		"Massev",
+		"Meloon",
+	};
+
 	private Body BodyMesh;
 
 	void Start()
 	{
 		BodyMesh = transform.parent.parent.GetChild( 0 ).GetChild( 0 ).GetComponent<Body>();
 
+		int arms = 0;
 		int limbcount = 0;
 		Transform lasttransform = null;
 		foreach ( Limb limb in BodyMesh.attachedLimbs )
@@ -41,13 +49,24 @@ public class GenerateNameScript : MonoBehaviour
 			// Add to name
 			if ( limb.type == "arm" )
 			{
-				Name += "arm";
+				//Name += "arm";
+				arms++;
 			}
 
 			lasttransform = textchild;
 			limbcount++;
 		}
 
+		// Base Name
+		Name = BaseName[Random.Range( 0, BaseName.Length )];
+
+		// Special Cases
+		if ( arms > 3 )
+		{
+			Name += " The Many Armed";
+		}
+
+		BodyMesh.godName = Name;
 		GetComponent<Text>().text = Name;
 		print( Name );
 	}

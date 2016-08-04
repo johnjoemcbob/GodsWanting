@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 	
@@ -28,13 +29,16 @@ public class GameManager : MonoBehaviour {
 	
 	private Vector3[] playerSpawnPositions;
 	private Vector3[] bossSpawnPositions;
+	private List<GameObject> Gods = new List<GameObject>();
 	
 	private GameObject[] players;
 	
 	// public SliderGroup noOfPlayersSG;
 	
 	private GameObject currentLevel;
-	
+
+	private float Phase2Started = -1;
+
 	void Awake () {
 		playerSpawnPositions = new Vector3[playerSpawnObject.childCount];
 		bossSpawnPositions = new Vector3[bossSpawnObject.childCount];
@@ -60,7 +64,25 @@ public class GameManager : MonoBehaviour {
 		
 		// levelElements.SetActive(false);
 	}
-	
+
+	void Update()
+	{
+		if ( phase2Elements.active && ( ( Time.time - Phase2Started ) > 9 ) )
+		{
+			// Activate input on gods
+			foreach ( GameObject god in Gods )
+			{
+				// Move
+				foreach ( InputActivatorScript script in god.GetComponents<InputActivatorScript>() )
+				{
+					script.enabled = true;
+				}
+				// Crouching
+				god.transform.GetChild( 0 ).gameObject.GetComponent<CrouchJumpScript>().enabled = true;
+			}
+		}
+	}
+
 	public void StartGame () {
 		
 		// currentLevel = Instantiate(levelElements) as GameObject;
@@ -80,6 +102,7 @@ public class GameManager : MonoBehaviour {
 		for (int i = 0; i < noOfTeams; i++)
 		{
 			GameObject tempBoss = Instantiate(god, bossSpawnPositions[i], Quaternion.identity) as GameObject;
+			Gods.Add( tempBoss );
 			// tempBoss.GetComponent<SetUp(noO);
 			
 			// Initialise leg joysticks
@@ -104,6 +127,30 @@ public class GameManager : MonoBehaviour {
 			CrouchJumpScript crouch = tempBoss.transform.GetChild( 0 ).GetComponent<CrouchJumpScript>();
 			crouch.CrouchButton_Player1 = "Shoulder_2_" + ( i * 2 + 0 );
 			crouch.CrouchButton_Player2 = "Shoulder_2_" + ( i * 2 + 1 );
+
+			// Initialise ref to other god
+			if ( i != 0 )
+			{
+				tempBoss.GetComponentsInChildren<Body>()[0].otherGod = Gods[0];
+				Gods[0].GetComponentsInChildren<Body>()[0].otherGod = tempBoss;
+			}
+
+			// Initialise canvas keyframe
+			EnableAtKeyframeScript keyframe = tempBoss.GetComponent<EnableAtKeyframeScript>();
+			keyframe.KeyframeAnimation = phase2Elements.GetComponent<KeyframeAnimationHandlerScript>();
+			keyframe.ActivateTime = 3;
+			keyframe.DeactivateTime = 5;
+			if ( i != 0 )
+			{
+				keyframe.ActivateTime = 6;
+				keyframe.DeactivateTime = 8;
+			}
+
+			// Initialise eye keyframe
+			foreach ( var eye in tempBoss.transform.GetChild( 0 ).GetChild( 0 ).GetChild( 0 ).GetChild( 0 ).GetComponentsInChildren<EyeShouldSpawnScript>() )
+			{
+				tempBoss.GetComponent<ActivateGroupScript>().Activatables.Add( eye );
+			}
 		}
 		
 		StartCoroutine("Timer");
@@ -118,6 +165,7 @@ public class GameManager : MonoBehaviour {
 		
 		phase2Elements.SetActive( true );
 		phase2Elements.GetComponent<KeyframeAnimationHandlerScript>().OnActivate();
+		Phase2Started = Time.time;
 	}
 	
 	public void TheEnd (string t) {

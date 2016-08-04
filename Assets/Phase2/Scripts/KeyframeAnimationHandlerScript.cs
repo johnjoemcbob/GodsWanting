@@ -117,4 +117,9 @@ public class KeyframeAnimationHandlerScript : ActivatableScript
 
 		return true;
 	}
+
+	public float GetSampleTime()
+	{
+		return Time_Sample;
+	}
 }

@@ -21,20 +21,6 @@ public class EyeShouldSpawnScript : ActivatableScript
 
 	void Start()
 	{
-		bool collision = false;
-		foreach ( Collider col in Physics.OverlapSphere( transform.position, transform.localScale.x ) )
-		{
-			if  ( !Ignore.Contains( col ) )
-			{
-				collision = true;
-				break;
-			}
-		}
-		if ( collision || ( Random.Range( 0, 10 ) <= 5 ) )
-		{
-			gameObject.SetActive( false );
-		}
-
 		// Eyes start closed anyway
 		TargetScale = transform.localScale;
 		transform.localScale = Vector3.zero;
@@ -51,6 +37,20 @@ public class EyeShouldSpawnScript : ActivatableScript
 	public override bool OnActivate()
 	{
 		if ( !base.OnActivate() ) return false;
+
+		bool collision = false;
+		foreach ( Collider col in Physics.OverlapSphere( transform.position, transform.localScale.x ) )
+		{
+			if ( !Ignore.Contains( col ) )
+			{
+				collision = true;
+				break;
+			}
+		}
+		if ( collision || ( Random.Range( 0, 10 ) <= 5 ) )
+		{
+			gameObject.SetActive( false );
+		}
 
 		Opening = true;
 		Closing = false;
