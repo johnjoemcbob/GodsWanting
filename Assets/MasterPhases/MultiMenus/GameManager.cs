@@ -71,14 +71,29 @@ public class GameManager : MonoBehaviour {
 		for (int i = 0; i < noOfTeams; i++)
 		{
 			GameObject tempBoss = Instantiate(god, bossSpawnPositions[i], Quaternion.identity) as GameObject;
-			int leg = 0;
+
+			// Initialise leg joysticks
+			int player = 0;
 			foreach ( JoystickControlLegScript joystick in tempBoss.GetComponentsInChildren<JoystickControlLegScript>() )
 			{
 				joystick.CameraParent = phase2Elements;
-				joystick.Joystick_Horizontal = "Stick_H_" + ( i * 2 + leg );
-				joystick.Joystick_Vertical = "Stick_V_" + ( i * 2 + leg );
-				leg++;
+				joystick.Joystick_Horizontal = "Stick_H_" + ( i * 2 + player );
+				joystick.Joystick_Vertical = "Stick_V_" + ( i * 2 + player );
+				player++;
 			}
+
+			// Initialise walk buttons
+			player = 0;
+			foreach ( InputActivatorScript input in tempBoss.GetComponentsInChildren<InputActivatorScript>() )
+			{
+				input.Button = "Shoulder_1_" + ( i * 2 + player );
+				player++;
+			}
+
+			// Initialise crouch axes
+			CrouchJumpScript crouch = tempBoss.transform.GetChild( 0 ).GetComponent<CrouchJumpScript>();
+			crouch.CrouchButton_Player1 = "Shoulder_2_" + ( i * 2 + 0 );
+			crouch.CrouchButton_Player2 = "Shoulder_2_" + ( i * 2 + 1 );
 		}
 		
 		StartCoroutine("Timer");

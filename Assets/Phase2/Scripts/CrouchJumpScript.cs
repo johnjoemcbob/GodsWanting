@@ -38,8 +38,8 @@ public class CrouchJumpScript : MonoBehaviour
 
 	void Update()
 	{
-		float p1 = 1 - Input.GetAxis( CrouchButton_Player1 );
-		float p2 = 1 - Input.GetAxis( CrouchButton_Player2 );
+		float p1 = 1 - ( Input.GetAxis( CrouchButton_Player1 ) + 1) / 2;;
+		float p2 = 1 - ( Input.GetAxis( CrouchButton_Player2 ) + 1) / 2;;
 		float mean = ( p1 + p2 ) / 2;
 		CurrentHeight = mean;
 
