@@ -16,7 +16,7 @@ public class Laserable : MonoBehaviour {
 	
 	public virtual void Awake () {
 		rb = GetComponent<Rigidbody>();
-		
+		canLaser = true;
 		// if (laseTarget == null)
 		// {
 			// laseTarget = gameObject;
