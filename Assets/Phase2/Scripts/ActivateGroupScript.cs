@@ -24,4 +24,16 @@ public class ActivateGroupScript : ActivatableScript
 
 		return true;
 	}
+
+	public override bool OnDeactivate()
+	{
+		if ( !base.OnDeactivate() ) return false;
+
+		foreach ( ActivatableScript activatable in Activatables )
+		{
+			activatable.OnDeactivate();
+		}
+
+		return true;
+	}
 }
