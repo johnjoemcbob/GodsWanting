@@ -169,6 +169,11 @@ public class GameManager : MonoBehaviour {
 		{
 			players[i].SetActive(false);
 		}
+
+		foreach ( var god in Gods )
+		{
+			god.GetComponentInChildren<Body>().ActivateLimbs();
+		}
 		
 		phase2Elements.SetActive( true );
 		phase2Elements.GetComponent<KeyframeAnimationHandlerScript>().OnActivate();

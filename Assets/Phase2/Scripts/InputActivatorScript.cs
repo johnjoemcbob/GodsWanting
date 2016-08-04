@@ -23,6 +23,8 @@ public class InputActivatorScript : MonoBehaviour
 		{
 			foreach ( ActivatableScript script in Scripts )
 			{
+				if ( script == null ) continue;
+
 				script.OnActivate();
             }
 		}

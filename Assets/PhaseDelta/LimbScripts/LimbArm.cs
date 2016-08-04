@@ -90,8 +90,14 @@ public class LimbArm : Limb {
 		upperRB.useGravity = false;
 		foreRB.useGravity = true;
 		fistRB.useGravity = true;
-		
+
+		foreach ( Collider c in GetComponentsInChildren<Collider>() )
+		{
+			c.isTrigger = false;
+		}
+
 		target = go;
+		print( "activate motion; " + target );
 		damageScript.SetTarget(target);
 		InvokeRepeating("Flail", 3, 3);
 	}
@@ -117,11 +123,11 @@ public class LimbArm : Limb {
 		// {
 			// transform.GetChild(i).localPosition = startingPositions[i];
 		// }
-		
-		// foreach (Collider c in GetComponentsInChildren<Collider>())
-		// {
-			// c.isTrigger = true;
-		// }
+
+		foreach ( Collider c in GetComponentsInChildren<Collider>() )
+		{
+			c.isTrigger = true;
+		}
 		
 		upperRB.useGravity = false;
 		foreRB.useGravity = false;

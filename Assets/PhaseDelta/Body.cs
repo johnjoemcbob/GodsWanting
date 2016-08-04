@@ -55,6 +55,8 @@ public class Body : MonoBehaviour {
 		
 		for (int i = 0; i < attachedLimbs.Count; i++)
 		{
+			if ( attachedLimbs[i] == null ) continue;
+
 			attachedLimbs[i].ActivateMotion(otherGod);
 		}
 	}
@@ -68,13 +70,13 @@ public class Body : MonoBehaviour {
 	
 		if (c != null)
 		{
-			if (gameObject.GetComponent<FixedJoint>() == null)
+			//if (gameObject.GetComponent<FixedJoint>() == null)
 			{
-				gameObject.AddComponent<FixedJoint>();  
-				gameObject.GetComponent<FixedJoint>().connectedBody = other.gameObject.GetComponent<Rigidbody>();
+				FixedJoint joint = gameObject.AddComponent<FixedJoint>();
+				joint.connectedBody = other.gameObject.GetComponent<Rigidbody>();
 				
 				other.gameObject.GetComponent<Laserable>().CannotLaser();
-				other.gameObject.GetComponent<Limb>().Attach();
+				other.gameObject.GetComponentInChildren<Limb>().Attach();
 				
 				// other.gameObject.GetComponent<Rigidbody>().mass = 1;
 				

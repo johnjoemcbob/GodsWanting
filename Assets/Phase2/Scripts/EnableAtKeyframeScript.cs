@@ -10,6 +10,8 @@ public class EnableAtKeyframeScript : MonoBehaviour
 
 	void Update()
 	{
+		if ( KeyframeAnimation == null ) return;
+
 		if ( KeyframeAnimation.GetSampleTime() < DeactivateTime )
 		{
 			if ( KeyframeAnimation.GetSampleTime() >= ActivateTime )

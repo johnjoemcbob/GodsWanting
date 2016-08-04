@@ -13,7 +13,6 @@ public class Limb : MonoBehaviour {
 	public float damage;
 	
 	private bool attached;
-	[HideInInspector]
 	public Damage damageScript;
 	
 	public virtual void SetUp (Rigidbody connectorRB) {

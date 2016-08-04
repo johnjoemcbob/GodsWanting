@@ -27,6 +27,7 @@ public class GenerateNameScript : MonoBehaviour
 		Transform lasttransform = null;
 		foreach ( Limb limb in BodyMesh.attachedLimbs )
 		{
+			if ( limb == null ) continue;
 			// Add part description
 			GameObject text = (GameObject) Instantiate( LimbTextPrefab );
 			Transform textchild = text.transform.GetChild( 0 );
