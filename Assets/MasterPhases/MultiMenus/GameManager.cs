@@ -175,6 +175,7 @@ public class GameManager : MonoBehaviour {
 		Phase2Started = Time.time;
 		
 		// spawnerScript.Clear();
+		GameObject.Find("Spawner").GetComponent<SpawnTimer>().StopSpawning();
 		phase1UI.SetActive(false);
 	}
 	
