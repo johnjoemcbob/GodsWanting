@@ -47,14 +47,14 @@ public class LimbArm : Limb {
 		// Debug.Log(startingPositions.Count);
 		// Debug.Log(transform.GetChild(1));
 		
-		
+		InvokeRepeating("MoveAbout", 0, 3);
 	}
 	
 	void Update () {
-		if (Input.GetKeyDown("e"))
-		{
-			DeactivateMotion();
-		}
+		// if (Input.GetKeyDown("e"))
+		// {
+			// DeactivateMotion();
+		// }
 	}
 	
 	public override void SetUp (Rigidbody connectorRB) {
@@ -71,7 +71,7 @@ public class LimbArm : Limb {
 		// {
 			// child.localScale = new Vector3(newScale, newScale, newScale);
 			
-		InvokeRepeating("MoveAbout", 2, 2);
+		
 	}
 	
 	
@@ -130,7 +130,7 @@ public class LimbArm : Limb {
 	}
 	
 	void MoveAbout () {
-		fistRB.AddForce(new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * flailForce);
+		fistRB.AddForce(new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * Random.Range(1, flailForce * 5));
 	}
 	
 	void Flail () {

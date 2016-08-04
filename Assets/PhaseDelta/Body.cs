@@ -59,7 +59,8 @@ public class Body : MonoBehaviour {
 				gameObject.AddComponent<FixedJoint>();  
 				gameObject.GetComponent<FixedJoint>().connectedBody = other.gameObject.GetComponent<Rigidbody>();
 				
-				gameObject.GetComponent<Laserable>().CannotLaser();
+				other.gameObject.GetComponent<Laserable>().CannotLaser();
+				other.gameObject.GetComponent<Limb>().Attach();
 				
 				// other.gameObject.GetComponent<Rigidbody>().mass = 1;
 				

@@ -14,4 +14,14 @@ public class Damage : MonoBehaviour {
 			otherHealth.TakeDamage(damageAmount);
 		}
 	}
+	
+	void OnCollisionEnter (Collision other) {
+		
+		Health otherHealth = other.gameObject.GetComponent<Health>();
+	
+		if (otherHealth)
+		{
+			otherHealth.TakeDamage(damageAmount);
+		}
+	}
 }

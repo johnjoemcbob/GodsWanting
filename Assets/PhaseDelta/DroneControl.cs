@@ -38,13 +38,17 @@ public class DroneControl : MovePerpendicularToCameraScript {
 		
 		playerScript = GetComponent<Player>();
 		
-		CameraParent = GameObject.Find("Phase1Camera");
+		
 	}
 	
 	// Use this for initialization
 	void Start () {
+		CameraParent = GameObject.Find("Phase1Camera");
+		
 		currentTurnSpeed = turnSpeed;
 		currentMaxSpeed = maxSpeed;
+		
+		
 	}
 	
 	// Update is called once per frame

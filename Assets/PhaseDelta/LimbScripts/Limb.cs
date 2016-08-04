@@ -12,6 +12,8 @@ public class Limb : MonoBehaviour {
 	public float speed;
 	public float damage;
 	
+	private bool attached;
+	
 	public virtual void SetUp (Rigidbody connectorRB) {
 		
 	}
@@ -41,5 +43,17 @@ public class Limb : MonoBehaviour {
 	
 	public virtual void DeactivateMotion () {
 		
+	}
+	
+	public virtual void Attach () {
+		attached = true;
+	}
+	
+	public virtual void AttemptClear () {
+		if (attached == false)
+		{
+			// gameObject.SetActive(false);
+			Destroy(gameObject);
+		}
 	}
 }
