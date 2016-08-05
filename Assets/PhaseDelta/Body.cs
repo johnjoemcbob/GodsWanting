@@ -23,6 +23,7 @@ public class Body : MonoBehaviour {
 		health = GetComponent<Health>();
 		
 		health.dead = Dead2;
+		health.damageCallback = DamageCallback;
 		// health.damageCallback = Damage;
 		
 		rb = GetComponent<Rigidbody>();
@@ -77,17 +78,37 @@ public class Body : MonoBehaviour {
 				
 				other.gameObject.GetComponent<Laserable>().CannotLaser();
 				other.gameObject.GetComponentInChildren<Limb>().Attach();
+				other.gameObject.GetComponentInChildren<Damage>().SetUpSelf(gameObject);
 				
 				// other.gameObject.GetComponent<Rigidbody>().mass = 1;
 				
 				attachedLimbs.Add(other.gameObject.GetComponentInChildren<Limb>());
 			}
 		}
+		
+		// Debug.Log(other.gameObject);
+	}
+	
+	void OnCollisionEnter (Collision other) {
+		
+		Damage d = other.gameObject.GetComponent<Damage>();
+		
+		if (d != null)
+		{
+			// health.TakeDamage(10);
+		}
+		
+		
+		// Debug.Log("Body collided with: " + other.gameObject);
 	}
 	
 	public void Dead2 () {
 		//kill it
 		
 		GameObject.Find("Managers").GetComponent<GameManager>().TheEnd(godName);
+	}
+	
+	public void DamageCallback (float d) {
+		Debug.Log(health.currentHealth);
 	}
 }

@@ -192,10 +192,16 @@ public class GameManager : MonoBehaviour {
 	IEnumerator Timer () {
 		float t = 0;
 		
-		while (t < phase1Timer)
+		while (t < phase1Timer && !Input.GetKeyDown("z"))
 		{
 			timerSlider.value = t / phase1Timer;
 			t += Time.deltaTime;
+			
+			if (Input.GetKeyDown(KeyCode.Keypad6) || Input.GetKeyDown(KeyCode.CapsLock))
+			{
+				t -= 10;
+			}
+			
 			yield return null;
 		}
 		
