@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour {
 	
 	private Spawner spawnerScript;
 	
+	private bool gameEnded;
+	
 	// public SliderGroup noOfPlayersSG;
 	
 	private GameObject currentLevel;
@@ -185,8 +187,12 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	public void TheEnd (string t) {
-		gameOverScreen.SetActive(true);
-		gameOverText.text = "The Magnificent " + t + " Has Been Defeated"; 
+		if (gameEnded == false)
+		{
+			gameOverScreen.SetActive(true);
+			gameOverText.text = "The Magnificent " + t + " Has Been Defeated"; 
+			gameEnded = true;
+		}
 	}
 	
 	IEnumerator Timer () {

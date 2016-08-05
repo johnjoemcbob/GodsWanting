@@ -46,8 +46,10 @@ public class Body : MonoBehaviour {
 			
 			rb.angularVelocity = Vector3.zero;
 			rb.velocity = Vector3.zero;
+		
+			Debug.Log("TOO FAR");
 			
-			health.TakeDamage(10);
+			// health.TakeDamage(10);
 		}
 	}
 	

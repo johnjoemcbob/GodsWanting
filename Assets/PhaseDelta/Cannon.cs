@@ -40,10 +40,13 @@ public class Cannon : MonoBehaviour {
 			ammo[ammo.Count-1].SetActive(true);
 			
 			ammo[ammo.Count-1].transform.position = transform.position + -transform.up * 1;
+			// ammo[ammo.Count-1].transform.rotation = transform.position + -transform.up * 1;
+			// ammo[ammo.Count-1].transform.LookAt(transform.parent, transform.up);
+			// ammo[ammo.Count-1].transform.LookAt(new Vector3(transform.parent.position.x, transform.position.y, transform.parent.position.z));
 			
 			ammo[ammo.Count-1].GetComponent<Rigidbody>().AddForce(-transform.up * fireForce);
 			
-			// Debug.Break();
+			Debug.Break();
 			
 			ammo.RemoveAt(ammo.Count-1);
 		}
