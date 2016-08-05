@@ -6,7 +6,7 @@ public class Spawner : MonoBehaviour {
 	
 	public bool useSpawnerPos;
 	
-	public GameObject obj;
+	public GameObject[] obj;
 	public int amountOfObj = 15;
 	
 	private ObjectPool objects;
@@ -17,7 +17,7 @@ public class Spawner : MonoBehaviour {
 	
 	void Awake () {
 		objects = gameObject.AddComponent<ObjectPool>();
-		objects.SetUp(amountOfObj, obj, true);
+		//objects.SetUp(amountOfObj, obj, true);
 		
 		spawnPos = useSpawnerPos ? transform.position : Vector3.zero;
 		
@@ -35,7 +35,7 @@ public class Spawner : MonoBehaviour {
 		// go.transform.rotation = Quaternion.identity;
 		
 		spawnPos = new Vector3(Random.Range(-3f, 3f), 5, Random.Range(-3f, 3f));
-		GameObject go = Instantiate(obj, spawnPos, Quaternion.identity) as GameObject;
+		GameObject go = Instantiate(obj[Random.Range( 0, obj.Length )], spawnPos, Quaternion.identity) as GameObject;
 		spawnedLimbs.Add(go.GetComponentInChildren<Limb>());
 		
 	}

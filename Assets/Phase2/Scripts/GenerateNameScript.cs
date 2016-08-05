@@ -27,6 +27,7 @@ public class GenerateNameScript : MonoBehaviour
 		BodyMesh = transform.parent.parent.GetChild( 0 ).GetChild( 0 ).GetComponent<Body>();
 
 		int arms = 0;
+		int horns = 0;
 		int limbcount = 0;
 		Transform lasttransform = null;
 		foreach ( Limb limb in BodyMesh.attachedLimbs )
@@ -57,13 +58,24 @@ public class GenerateNameScript : MonoBehaviour
 				//Name += "arm";
 				arms++;
 			}
+			if ( limb.type == "horn" )
+			{
+				horns++;
+			}
 
 			lasttransform = textchild;
 			limbcount++;
 		}
 
+		// Prefix
+		Name = "";
+		if ( horns > 0 )
+		{
+			Name = "Horned ";
+		}
+
 		// Base Name
-		Name = BaseName[Random.Range( 0, BaseName.Length )];
+		Name += BaseName[Random.Range( 0, BaseName.Length )];
 
 		// Special Cases
 		if ( arms > 10 )
