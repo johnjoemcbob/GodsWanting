@@ -14,6 +14,10 @@ public class GenerateNameScript : MonoBehaviour
 		"Dziethew",
 		"Massev",
 		"Meloon",
+		"Udros Of The Sun,",
+		"Toesis Of War,",
+		"Radon Of The Ocean,",
+		"Sodes Of Earth,",
 	};
 
 	private Body BodyMesh;
@@ -62,9 +66,29 @@ public class GenerateNameScript : MonoBehaviour
 		Name = BaseName[Random.Range( 0, BaseName.Length )];
 
 		// Special Cases
-		if ( arms > 3 )
+		if ( arms > 10 )
+		{
+			Name += " The Massive";
+		}
+		else if ( arms > 5 )
 		{
 			Name += " The Many Armed";
+		}
+		else if ( arms > 2 )
+		{
+			Name += " The Large";
+		}
+		else if ( arms == 2 )
+		{
+			Name += " The Human";
+		}
+		else if ( arms == 1 )
+		{
+			Name += " The One Armed";
+		}
+		if ( limbcount == 0 )
+		{
+			Name += " The Purist";
 		}
 
 		BodyMesh.godName = Name;
